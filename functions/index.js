@@ -24,18 +24,14 @@ const NO = 'No';
 // index of current card
 var current = -1;
 
-// dummy set of cards
-var cards = [{
-  term: "banana",
-  definition: "a yellow fruit"
-},{
-  term: "apple",
-  definition: "a red fruit"
-},
-{
-  term: "grape",
-  definition: "a small fruit"
-}];
+var fs = require('fs');
+var data_obj = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+var cards = data_obj.map(function(card){
+  return {
+    term: card.answer,
+    definition: card.question
+  }
+});
 
 
 // canned response functions, self-explanatory by their titles
@@ -51,12 +47,12 @@ var Responses = {
     return "Okay. The correct answer is "+cards[current].term+".";
   },
   ask_answer : function(){
-    return "Ok! What do you think is the term that corresponds to "+cards[current].definition+"?";
+    return "Ok! What do you think is the term that corresponds to \'"+cards[current].definition+"\'?";
   },
   new_card : function(){
     current++;
     current = current % cards.length;
-    return "What is "+cards[current].definition+"?";
+    return "What is \'"+cards[current].definition+"\'?";
   },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
@@ -104,7 +100,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if he does want to try again but didn't give an answer, ask for the answer
     else if ( try_again == YES && answer == null){
-      app.setContext(AGAIN_CONTEXT);
+      app.setContext(ASSESS_CONTEXT);
       app.ask( Responses.ask_answer() );
     }
 
