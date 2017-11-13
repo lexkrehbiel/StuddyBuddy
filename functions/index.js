@@ -3,6 +3,8 @@
 process.env.DEBUG = 'actions-on-google:*';
 const App = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
+var Responses = require('./responses.js').Responses;
+var Cards = require('./card_manager.js');
 
 // ACTIONS
 const ASSESS_ACTION = 'assess_response';
@@ -21,68 +23,39 @@ const TRY_AGAIN_ARGUMENT = 'try_again';
 const YES = 'Yes';
 const NO = 'No';
 
-// index of current card
-var current = -1;
-
-var fs = require('fs');
-var data_obj = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-var cards = data_obj.map(function(card){
-  return {
-    term: card.answer,
-    definition: card.question
-  }
-});
-
-
-// canned response functions, self-explanatory by their titles
-// later, we can replace these with arrays so it's less repetitive
-var Responses = {
-  correct : function(ans){
-    return "\'"+ans + "\' is correct! Moving on...";
-  },
-  incorrect_try_again : function (ans){
-    return "\'"+ans + "\' is incorrect. Would you like to try again?";
-  },
-  incorrect_give_answer : function (ans){
-    return "Okay. The correct answer is "+cards[current].term+".";
-  },
-  ask_answer : function(){
-    return "Ok! What do you think is the term that corresponds to \'"+cards[current].definition+"\'?";
-  },
-  new_card : function(){
-    current++;
-    current = current % cards.length;
-    return "What is \'"+cards[current].definition+"\'?";
-  },
-  welcome : function(){
-    return "Welcome to Study Buddy! Let's go!";
-  }
-}
-
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // generate a new DialogflowApp
   const app = new App({request, response});
 
+  function assessResponse(user_raw){
+
+    var user_ans = user_raw.toLowerCase();
+    var correct_ans = Cards.getCurrentAnswer().toLowerCase();
+
+    // if correct, alert user and move to a new card
+    if ( user_ans == correct_ans ){
+      app.setContext(ASSESS_CONTEXT);
+      app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+    }
+
+    // if wrong, alert user and ask to try again
+    else {
+      app.setContext(AGAIN_CONTEXT);
+      app.ask( Responses.incorrect_try_again(user_raw) );
+    }
+
+  }
+
   // check if the user's response is correct
-  function assessResponse (app) {
+  function doAssessResponse (app) {
 
     // get user's answer
     var answer = app.getArgument(ANSWER_ARGUMENT);
 
-    // if correct,
-    if( answer == cards[current].term ){
-
-      // move on
-      app.setContext(ASSESS_CONTEXT);
-      app.ask( Responses.correct(answer) + " " + Responses.new_card() );
-    } else {
-
-      // otherwise, ask to try again
-      app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.incorrect_try_again(answer) );
-    }
+    // respond according to the answer in the argument
+    assessResponse(answer);
   }
 
   // get the user's response to whether he wants to try again
@@ -106,13 +79,10 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if he gave an answer, check it
     else if ( try_again == YES && answer != null ) {
-      if( answer == cards[current].term ){
-        app.setContext(ASSESS_CONTEXT);
-        app.ask( Responses.correct(answer) +  " " + Responses.new_card() );
-      } else {
-        app.setContext(AGAIN_CONTEXT);
-        app.ask( Responses.incorrect_try_again(answer) );
-      }
+
+      // respond according to the answer given
+      assessResponse(answer);
+
     }
   }
 
@@ -129,7 +99,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   let actionMap = new Map();
-  actionMap.set(ASSESS_ACTION, assessResponse);
+  actionMap.set(ASSESS_ACTION, doAssessResponse);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
