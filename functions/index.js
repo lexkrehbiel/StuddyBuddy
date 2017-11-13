@@ -4,10 +4,7 @@ process.env.DEBUG = 'actions-on-google:*';
 const App = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
 var Responses = require('./responses.js').Responses;
-var rate = require('./assessment.js').rating;
-var ratings = require('./constants.js').ratings;
 var Cards = require('./card_manager.js');
-var shell = require('shelljs');
 
 // ACTIONS
 const ASSESS_ACTION = 'assess_response';
@@ -32,60 +29,22 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   // generate a new DialogflowApp
   const app = new App({request, response});
 
-  function assessResponse(user_ans){
+  function assessResponse(user_raw){
 
-    var correct_ans = Cards.getCurrentAnswer();
+    var user_ans = user_raw.toLowerCase();
+    var correct_ans = Cards.getCurrentAnswer().toLowerCase();
 
-    // transfer control to the command line, calling the python script for diarization
-    shell.exec('python '+__dirname+ '/compare_keywords.py '+user_ans+' '+correct_ans, function(err,results){
-      if (err) app.tell(err);
+    // if correct, alert user and move to a new card
+    if ( user_ans == correct_ans ){
+      app.setContext(ASSESS_CONTEXT);
+      app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+    }
 
-      app.tell("correctness: "+results);
-    })
-
-    // rate the agreement
-    //rate(user_ans, correct_ans)
-
-    // respond accordingly
-    //.then (function(correctness){
-
-      // spawn the python process
-      //var process = spawn('python',[__dirname + "/compare_keywords.py", user_ans, correct_ans]);
-
-      // when the python process returns data,
-      // return the classification for the given percent agreement
-      // process.stdout.on('data', function(data) {
-      //     app.tell(data+" correctness");
-      //   });
-
-      // respond according to the level of correctness
-    //  switch(correctness){
-
-      //   // if correct, alert user and move to a new card
-      //   case ratings.CORRECT:
-      //     app.setContext(ASSESS_CONTEXT);
-      //     app.ask( Responses.correct(answer) + " " + Responses.new_card() );
-      //     break;
-      //
-      //   // if good, alert user, read answer, and move to a new card
-      //   case ratings.GOOD:
-      //     app.setContext(ASSESS_CONTEXT);
-      //     app.ask( Responses.good(answer) + " " + Responses.new_card() );
-      //     break;
-      //
-      //   // if almost, alert user and ask to try again
-      //   case ratings.ALMOST:
-      //     app.setContext(AGAIN_CONTEXT);
-      //     app.ask( Responses.almost(answer) );
-      //     break;
-      //
-      //   // if wrong, alert user and ask to try again
-      //   case ratings.WRONG:
-      //     app.setContext(AGAIN_CONTEXT);
-      //     app.ask( Responses.incorrect_try_again(answer) );
-      //     break;
-      // }
-    //})
+    // if wrong, alert user and ask to try again
+    else {
+      app.setContext(AGAIN_CONTEXT);
+      app.ask( Responses.incorrect_try_again(user_raw) );
+    }
 
   }
 

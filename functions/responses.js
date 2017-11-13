@@ -7,12 +7,6 @@ exports.Responses = {
   correct : function(ans){
     return "\'"+ans + "\' is correct! Moving on...";
   },
-  good : function(ans, actual){
-    return "\'"+ans + "\' is basically right! The correct answer was "+actual+". Moving on...";
-  },
-  almost : function(ans, actual){
-    return "\'"+ans + "\' is close, but not quite right. Would you like to try again?";
-  },
   incorrect_try_again : function (ans){
     return "\'"+ans + "\' is incorrect. Would you like to try again?";
   },
