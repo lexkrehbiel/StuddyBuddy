@@ -9,6 +9,9 @@
   "dependencies": {
     "actions-on-google": "^1.0.0",
     "firebase-admin": "^4.2.1",
-    "firebase-functions": "^0.5.7"
+    "firebase-functions": "^0.5.7",
+    "child_process":"^1.0.2",
+    "bluebird" : "^3.5.0",
+    "shelljs" : "^0.7.8"
   }
 }

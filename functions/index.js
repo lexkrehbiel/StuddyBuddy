@@ -3,6 +3,11 @@
 process.env.DEBUG = 'actions-on-google:*';
 const App = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
+var Responses = require('./responses.js').Responses;
+var rate = require('./assessment.js').rating;
+var ratings = require('./constants.js').ratings;
+var Cards = require('./card_manager.js');
+var shell = require('shelljs');
 
 // ACTIONS
 const ASSESS_ACTION = 'assess_response';
@@ -21,68 +26,77 @@ const TRY_AGAIN_ARGUMENT = 'try_again';
 const YES = 'Yes';
 const NO = 'No';
 
-// index of current card
-var current = -1;
-
-var fs = require('fs');
-var data_obj = JSON.parse(fs.readFileSync('data.json', 'utf8'));
-var cards = data_obj.map(function(card){
-  return {
-    term: card.answer,
-    definition: card.question
-  }
-});
-
-
-// canned response functions, self-explanatory by their titles
-// later, we can replace these with arrays so it's less repetitive
-var Responses = {
-  correct : function(ans){
-    return "\'"+ans + "\' is correct! Moving on...";
-  },
-  incorrect_try_again : function (ans){
-    return "\'"+ans + "\' is incorrect. Would you like to try again?";
-  },
-  incorrect_give_answer : function (ans){
-    return "Okay. The correct answer is "+cards[current].term+".";
-  },
-  ask_answer : function(){
-    return "Ok! What do you think is the term that corresponds to \'"+cards[current].definition+"\'?";
-  },
-  new_card : function(){
-    current++;
-    current = current % cards.length;
-    return "What is \'"+cards[current].definition+"\'?";
-  },
-  welcome : function(){
-    return "Welcome to Study Buddy! Let's go!";
-  }
-}
-
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // generate a new DialogflowApp
   const app = new App({request, response});
 
+  function assessResponse(user_ans){
+
+    var correct_ans = Cards.getCurrentAnswer();
+
+    // transfer control to the command line, calling the python script for diarization
+    shell.exec('python '+__dirname+ '/compare_keywords.py '+user_ans+' '+correct_ans, function(err,results){
+      if (err) app.tell(err);
+
+      app.tell("correctness: "+results);
+    })
+
+    // rate the agreement
+    //rate(user_ans, correct_ans)
+
+    // respond accordingly
+    //.then (function(correctness){
+
+      // spawn the python process
+      //var process = spawn('python',[__dirname + "/compare_keywords.py", user_ans, correct_ans]);
+
+      // when the python process returns data,
+      // return the classification for the given percent agreement
+      // process.stdout.on('data', function(data) {
+      //     app.tell(data+" correctness");
+      //   });
+
+      // respond according to the level of correctness
+    //  switch(correctness){
+
+      //   // if correct, alert user and move to a new card
+      //   case ratings.CORRECT:
+      //     app.setContext(ASSESS_CONTEXT);
+      //     app.ask( Responses.correct(answer) + " " + Responses.new_card() );
+      //     break;
+      //
+      //   // if good, alert user, read answer, and move to a new card
+      //   case ratings.GOOD:
+      //     app.setContext(ASSESS_CONTEXT);
+      //     app.ask( Responses.good(answer) + " " + Responses.new_card() );
+      //     break;
+      //
+      //   // if almost, alert user and ask to try again
+      //   case ratings.ALMOST:
+      //     app.setContext(AGAIN_CONTEXT);
+      //     app.ask( Responses.almost(answer) );
+      //     break;
+      //
+      //   // if wrong, alert user and ask to try again
+      //   case ratings.WRONG:
+      //     app.setContext(AGAIN_CONTEXT);
+      //     app.ask( Responses.incorrect_try_again(answer) );
+      //     break;
+      // }
+    //})
+
+  }
+
   // check if the user's response is correct
-  function assessResponse (app) {
+  function doAssessResponse (app) {
 
     // get user's answer
     var answer = app.getArgument(ANSWER_ARGUMENT);
 
-    // if correct,
-    if( answer == cards[current].term ){
-
-      // move on
-      app.setContext(ASSESS_CONTEXT);
-      app.ask( Responses.correct(answer) + " " + Responses.new_card() );
-    } else {
-
-      // otherwise, ask to try again
-      app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.incorrect_try_again(answer) );
-    }
+    // respond according to the answer in the argument
+    assessResponse(answer);
   }
 
   // get the user's response to whether he wants to try again
@@ -106,13 +120,10 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if he gave an answer, check it
     else if ( try_again == YES && answer != null ) {
-      if( answer == cards[current].term ){
-        app.setContext(ASSESS_CONTEXT);
-        app.ask( Responses.correct(answer) +  " " + Responses.new_card() );
-      } else {
-        app.setContext(AGAIN_CONTEXT);
-        app.ask( Responses.incorrect_try_again(answer) );
-      }
+
+      // respond according to the answer given
+      assessResponse(answer);
+
     }
   }
 
@@ -129,7 +140,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   let actionMap = new Map();
-  actionMap.set(ASSESS_ACTION, assessResponse);
+  actionMap.set(ASSESS_ACTION, doAssessResponse);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
