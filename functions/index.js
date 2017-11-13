@@ -11,6 +11,8 @@ const ASSESS_ACTION = 'assess_response';
 const TRY_AGAIN_ACTION = 'try_again_answer';
 const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
+const QUIT_ACTION = 'quit';
+const STATS_ACTION = 'stats';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
@@ -22,6 +24,20 @@ const TRY_AGAIN_ARGUMENT = 'try_again';
 
 const YES = 'Yes';
 const NO = 'No';
+
+var current = -1;
+var correctCount = 0;
+var skipCount = 0;
+var againCount = 0;
+var secondTry = false;
+
+function getStats(){
+    return "You have answered " + correctCount + " out of " + (correctCount+skipCount) + " total questions";
+}
+
+function getBackTo(){
+    return "Would you like to go back to your last card?"
+}
 
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
@@ -97,13 +113,23 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.welcome() +  " " + Responses.new_card());
   }
+  
+  function quitStudy(app) {
+	  app.tell("Thanks for studying with us! Have a great day!");
+  }
+  
+  function getScore(app){
+        app.setContext(AGAIN_CONTEXT);
+        app.ask(getStats() + "\n" + getBackTo());
+  }
 
   let actionMap = new Map();
-  actionMap.set(ASSESS_ACTION, doAssessResponse);
+  actionMap.set(ASSESS_ACTION, assessResponse);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
-
+  actionMap.set(QUIT_ACTION, quitStudy);
+  actionMap.set(STATS_ACTION, getScore);
 
   app.handleRequest(actionMap);
 });
