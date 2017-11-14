@@ -124,9 +124,15 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.ask(getStats() + "\n" + getBackTo());
   }
 
+  function giveHint(app){
+    app.setContext(ASSESS_CONTEXT);
+    app.ask( Responses.hint() );
+  }
+
   let actionMap = new Map();
   actionMap.set(ASSESS_ACTION, doAssessResponse);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
+  actionMap.set(HINT_ACTION, giveHint);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
   actionMap.set(QUIT_ACTION, quitStudy);

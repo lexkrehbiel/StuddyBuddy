@@ -22,5 +22,12 @@ exports.Responses = {
   },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
+  },
+  hint : function(){
+    if ( Cards.getCurrentHint() ) {
+      return "Here's a hint! \'"+ Cards.getCurrentHint()+"\' What do you think is the answer?";
+    } else {
+      return "Sorry, I don't know any hints for this question! Here's the question again: \'"+ Cards.getCurrentQuestion()+"\'";
+    }
   }
 }
