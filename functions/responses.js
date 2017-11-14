@@ -22,5 +22,11 @@ exports.Responses = {
   },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
+  },
+  skip : function(){
+    var resp = "Okay, we'll skip '" + Cards.getCurrentQuestion()
+      + "\' The answer is \'"+ Cards.getCurrentAnswer() + "\'";
+    Cards.goToNextCard();
+    return resp + " Here's a new one: \'"+Cards.getCurrentQuestion()+"\'";
   }
 }
