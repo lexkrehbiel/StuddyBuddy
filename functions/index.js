@@ -13,6 +13,7 @@ const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
+const HINT_ACTION = 'hint';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
@@ -113,18 +114,18 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.welcome() +  " " + Responses.new_card());
   }
-  
+
   function quitStudy(app) {
 	  app.tell("Thanks for studying with us! Have a great day!");
   }
-  
+
   function getScore(app){
-        app.setContext(AGAIN_CONTEXT);
-        app.ask(getStats() + "\n" + getBackTo());
+    app.setContext(AGAIN_CONTEXT);
+    app.ask(getStats() + "\n" + getBackTo());
   }
 
   let actionMap = new Map();
-  actionMap.set(ASSESS_ACTION, assessResponse);
+  actionMap.set(ASSESS_ACTION, doAssessResponse);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
