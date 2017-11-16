@@ -1,1 +1,10 @@
 //Possible JSON Object for ScoreKeeper to track per Deck
+
+[
+   {
+      "name": "Biology",
+      "number": "1",
+      "correct": "0",
+      "total" : "0"
+   }
+]
