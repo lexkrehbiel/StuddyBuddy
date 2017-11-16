@@ -5,6 +5,7 @@ const App = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
 var Responses = require('./responses.js').Responses;
 var Cards = require('./card_manager.js');
+var ScoreKeeper = require('./score_keeper.js');
 
 // ACTIONS
 const ASSESS_ACTION = 'assess_response';
@@ -27,16 +28,13 @@ const YES = 'Yes';
 const NO = 'No';
 
 var current = -1;
-var correctCount = 0;
-var skipCount = 0;
-var againCount = 0;
-var secondTry = false;
 
 function getStats(){
-    return "You have answered " + correctCount + " out of " + (correctCount+skipCount) + " total questions";
+    return "You have answered " + ScoreKeeper.getCorrectCount() + " out of " + ScoreKeeper.getTotalCount() + " total questions";
 }
 
 function getBackTo(){
+	//TODO Possibly add to the Responses module to "get back to the entered context"
     return "Would you like to go back to your last card?"
 }
 
@@ -54,6 +52,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     // if correct, alert user and move to a new card
     if ( user_ans == correct_ans ){
       app.setContext(ASSESS_CONTEXT);
+      ScoreKeeper.markCorrect();
+
+      /*
+		if(ScoreKeeper.atThreshold()){
+			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
+		}
+      */
+
       app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
     }
 
@@ -85,6 +91,10 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     // if he doesn't want to try again, give him the answer and move on.
     if ( try_again == NO){
       app.setContext(ASSESS_CONTEXT);
+
+      //ScoreKeeper.markSkip(deckNum);
+
+      ScoreKeeper.markSkip();
       app.ask( Responses.incorrect_give_answer() + " " + Responses.new_card() );
     }
 
