@@ -1,10 +1,21 @@
 //Eventually have a deck JSON to track score per deck???
-//var fs = require('fs');
-//var decks = JSON.parse(fs.readFileSync('decks.json', 'utf8'));
+var fs = require('fs');
+var decks = JSON.parse(fs.readFileSync('quiz.json', 'utf8'))[0];
 
-var total = 0;
-var correct = 0;
-var in_a_row = 0;
+var scoreDecks = [];
+
+for(var i = 0; i < decks.length; i++){
+	scoreDecks.push( {
+		title: decks[i].title,
+		subject: decks[i].subject,
+		totalCards: decks[i].cards.length,,
+		correct: 0,
+		total: 0,
+		streak: 0
+	} );
+}
+
+var currentDeck = 0;
 
 var thresh_correct = 0;
 var thresh_streak = 0;
@@ -12,39 +23,47 @@ var thresh_streak = 0;
 var streak_threshold = generateThreshold(7, 13);
 var correct_threshold = generateThreshold(10, 16);
 
+
 var generateThreshold = function(start, end){
 	return Math.floor(Math.random() * (end-start)) + start;
 }
 
+exports.setCurrentDeck = function(deckNum){
+	scoreDecks[currentDeck].streak = 0;
+	currentDeck = deckNum;
+	thresh_streak = 0;
+	thresh_correct = 0;
+}
+
 exports.getCorrectCount = function(){
-	return correct;
+	return scoreDecks[currentDeck].correct;
 }
 
 exports.getTotalCount = function(){
-	return total;
+	return scoreDecks[currentDeck].total;
 }
 
 exports.getStreakCount = function(){
-	return in_a_row;
+	return scoreDecks[currentDeck].streak;
 }
 
 exports.getSkipCount = function(){
-	return total - correct;
+	return scoreDecks[currentDeck].total - scoreDecks[currentDeck].correct;
 }
 
 
 exports.markCorrect = function(){
-	correct++;
-	total++;
-	in_a_row++;
+	scoreDecks[currentDeck].correct++;
+	scoreDecks[currentDeck].total++;
+	scoreDecks[currentDeck].streak++;
 
 	thresh_streak++;
 	thresh_correct++;
 }
 
 exports.markSkip = function(){
-	total++;
-	in_a_row = 0;
+	scoreDecks[currentDeck].total++;
+	scoreDecks[currentDeck].streak = 0;
 	thresh_streak = 0;
 }
 
@@ -63,28 +82,3 @@ exports.atThreshold = function(){
 
 	return false;
 }
-
-
-/*
-exports.markCorrect = function(deckNum){
-	//We need to access some JSON for a deck to track your score within a given deck
-}
-
-
-exports.markSkip = function(deckNum){
-	//We need to access some JSON for a deck to track your score within a given deck
-}
-
-exports.getCorrectCount = function(deckNum){
-	//We need to access some JSON for a deck to track your score within a given deck
-}
-
-exports.getTotalCount = function(deckNum){
-	//We need to access some JSON for a deck to track your score within a given deck
-}
-
-
-exports.getSkipCount = function(deckNum){
-	//We need to access some JSON for a deck to track your score within a given deck
-}
-*/
