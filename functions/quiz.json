@@ -1,0 +1,100 @@
+[ 
+   {
+      "title": "Random Trivia",
+      "subject": "Science",
+      "cards": [
+         {
+            "question": "What is the melting point of water?",
+            "hint": "Celsius scale is defined by the melting and boiling point of water.",
+            "answer": "Zero Degrees Celsius"
+         },
+         {
+            "question": "What is the most abundant element in the universe?",
+            "hint": "Part of water molecule",
+            "answer": "Hydrogen"
+         },
+         {
+            "question": "Who invented the theory of relativity?",
+            "hint": "E=mc^2",
+            "answer": "Albert Einstein"
+         },
+         {
+            "question": "What is the meaning of life?",
+            "hint": "Question popularized by Hitchhikers guide to the galaxy.",
+            "answer": "Forty-Two"
+         },
+         {
+            "question": "Bronze alloy is made of tin and what?",
+            "hint": "Highly conductive material",
+            "answer": "Copper"
+         },
+         {
+            "question": "What is the number for neutral pH?",
+            "hint": "Neutral pH is lower than 9",
+            "answer": "Seven"
+         }
+      ]
+   }
+   {
+      "title": "Vocabulary One",
+      "subject": "English",
+      "cards": [
+         {
+            "question": "A sentimental longing or wistful affection for the past",
+            "hint": "No Hint",
+            "answer": "Nostalgia"
+         },
+         {
+            "question": "Of such excellence, grandeur, or beauty as to inspire great admiration or awe.",
+            "hint": "Part of this word is as sour as a lemon.",
+            "answer": "Sublime"
+         },
+         {
+            "question": "A system in which groups are ranked according to status",
+            "hint": "No Hint",
+            "answer": "Hierarchy"
+         }
+      ]
+   }
+   {
+      "title": "Common Phrases",
+      "subject": "Latin",
+      "cards": [
+         {
+            "question": "Carpe Diem",
+            "hint": "No Hint",
+            "answer": "Seize the day."
+         },
+         {
+            "question": "Magna Cum Laude",
+            "hint": "No Hint",
+            "answer": "With great Praise"
+         },
+         {
+            "question": "Caveat Emptor",
+            "hint": "No Hint",
+            "answer": "Let the buyer beware"
+         },
+         {
+            "question": "Sic Semper Tyrannis",
+            "hint": "No Hint",
+            "answer": "Thus always to tyrants"
+         },
+         {
+            "question": "Veni Vidi Vici",
+            "hint": "No Hint",
+            "answer": "I came, I saw, I conquered"
+         },
+         {
+            "question": "Deus Ex Machine",
+            "hint": "No Hint",
+            "answer": "God out of a machine"
+         },
+         {
+            "question": "E pluribus Unum",
+            "hint": "No Hint",
+            "answer": "OUt of many, one"
+         }
+      ]
+   }
+]

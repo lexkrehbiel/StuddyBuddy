@@ -14,10 +14,12 @@ const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
 const HINT_ACTION = 'hint';
+const DECK_SELECT = 'deck_select';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
+const DECK_SELECT_CONTEXT = "deck";
 
 // ARGUMENTS
 const ANSWER_ARGUMENT = 'answer';
@@ -108,6 +110,12 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.setContext(ASSESS_CONTEXT);
     app.ask( Resonses.new_card() );
   }
+
+  // ask the user to select a deck
+  function selectDeck(app) {
+    app.setContext(DECK_SELECT_CONTEXT)
+    // TODO: Add suggestions on topics to study.
+    app.ask( "What deck would you like to study?");
 
   // ask the user about a new card after welcoming him
   function firstNewCard(app) {
