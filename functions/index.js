@@ -19,6 +19,8 @@ const HINT_ACTION = 'hint';
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
+const HINT_CONTEXT = "hint";
+const SWITCH_CONTEXT = "switch";
 
 // ARGUMENTS
 const ANSWER_ARGUMENT = 'answer';
@@ -31,11 +33,6 @@ var current = -1;
 
 function getStats(){
     return "You have answered " + ScoreKeeper.getCorrectCount() + " out of " + ScoreKeeper.getTotalCount() + " total questions";
-}
-
-function getBackTo(){
-	//TODO Possibly add to the Responses module to "get back to the entered context"
-    return "Would you like to go back to your last card?"
 }
 
 // attach all the functions to studdyBuddy!
@@ -130,8 +127,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   function getScore(app){
-    app.setContext(AGAIN_CONTEXT);
-    app.ask(getStats() + "\n" + getBackTo());
+    
+    app.ask(getStats() + "\n" + Responses.getBackTo(app);
   }
 
   let actionMap = new Map();
