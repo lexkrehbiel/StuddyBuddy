@@ -19,6 +19,9 @@ var currentDeck = 0;
 
 var thresh_correct = 0;
 var thresh_streak = 0;
+var wrong_thresh = 2;
+
+var wrongStreak = 0;
 
 var streak_threshold = generateThreshold(7, 13);
 var correct_threshold = generateThreshold(10, 16);
@@ -59,15 +62,30 @@ exports.markCorrect = function(){
 
 	thresh_streak++;
 	thresh_correct++;
+	wrongStreak = 0;
+}
+
+exports.markWrong = function(){
+	wrongStreak++;
 }
 
 exports.markSkip = function(){
 	scoreDecks[currentDeck].total++;
 	scoreDecks[currentDeck].streak = 0;
 	thresh_streak = 0;
+	wrongStreak = 0;
 }
 
-exports.atThreshold = function(){
+
+exports.atHintThreshold() = function(){
+	if(wrongStreak > wrong_thresh){
+		wrongStreak = 0;
+		return true;
+	}
+	return false;
+}
+
+exports.atRewardThreshold = function(){
 	//Eventually integrate with some deck percentage
 	
 	if (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold){
