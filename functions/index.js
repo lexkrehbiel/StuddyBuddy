@@ -25,6 +25,8 @@ const SWITCH_CONTEXT = "switch";
 // ARGUMENTS
 const ANSWER_ARGUMENT = 'answer';
 const TRY_AGAIN_ARGUMENT = 'try_again';
+const GET_HINT_ARGUMENT = 'y_n_hint';
+
 
 const YES = 'Yes';
 const NO = 'No';
@@ -52,9 +54,11 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       ScoreKeeper.markCorrect();
 
       /*
-		if(ScoreKeeper.atThreshold()){
+		if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
-		}
+		  app.ask( Responses.good_job() + " " + Responses.getStats + " " + Responses.new_card());
+    }
+    else{
       */
 
       app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
@@ -62,6 +66,18 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if wrong, alert user and ask to try again
     else {
+
+      ScoreKeeper.markWrong();
+
+      /*
+      if(ScoreKeeper.atWrongThreshold()){
+        //Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
+        app.setContext(HINT_CONTEXT_CONTEXT);
+        app.ask("Ah well, would you like a hint?");
+      }
+      else{
+      */
+
       app.setContext(AGAIN_CONTEXT);
       app.ask( Responses.incorrect_try_again(user_raw) );
     }
@@ -107,6 +123,20 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       // respond according to the answer given
       assessResponse(answer);
 
+    }
+  }
+
+  function ask_hint(app){
+    let get_hint = app.getArgument(GET_HINT_ARGUMENT);
+
+    if(get_hint == YES){
+      app.setContext(ASSESS_CONTEXT);
+      app.ask( Cards.getCurrentHint() + " Let's try this again!" );
+    }
+
+    else{
+      app.setContext(AGAIN_CONTEXT);
+      app.ask( Responses.incorrect_try_again(user_raw) );
     }
   }
 
