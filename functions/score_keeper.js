@@ -32,6 +32,10 @@ var correct_threshold = generateThreshold(10, 16);
 
 
 var findDeck = function(deckName){
+	if(deckName == null){
+		return null;
+	}
+
 	for(var i = 0; i < scoreDecks.length; i++){
 		if(scoreDecks[i].title == deckName){
 			return scoreDecks[i];
@@ -50,47 +54,35 @@ exports.setCurrentDeck = function(deckNum){
 	thresh_correct = 0;
 }
 
-exports.getCorrectCount = function(){
-	return scoreDecks[currentDeck].correct;
-}
-
-exports.getTotalCount = function(){
-	return scoreDecks[currentDeck].total;
-}
-
 exports.getStreakCount = function(){
 	return scoreDecks[currentDeck].streak;
-}
-
-exports.getSkipCount = function(){
-	return scoreDecks[currentDeck].total - scoreDecks[currentDeck].correct;
 }
 
 exports.getCorrectCount = function(deckName){
 	let deck = findDeck(deckName);
 
-	if(deck == NULL){
-		return -1;
+	if(deck == null){
+		return scoreDecks[currentDeck].correct;
 	}
 
-	return scoreDecks[currentDeck].correct;
+	return deck.correct;
 }
 
 exports.getTotalCount = function(deckName){
 	let deck = findDeck(deckName);
 
-	if(deck == NULL){
-		return -1;
+	if(deck == null){
+		return scoreDecks[currentDeck].total;
 	}
 
-	return scoreDecks[currentDeck].total;
+	return deck.total;
 }
 
 exports.getSkipCount = function(deckName){
 	let deck = findDeck(deckName);
 
-	if(deck == NULL){
-		return -1;
+	if(deck == null){
+		return scoreDecks[currentDeck].total - scoreDecks[currentDeck].correct;
 	}
 
 	return deck.total - deck.correct;
@@ -120,7 +112,7 @@ exports.markSkip = function(){
 
 
 exports.atHintThreshold = function(){
-	if(wrongStreak > wrong_thresh){
+	if(wrongStreak >= wrong_thresh){
 		wrongStreak = 0;
 		return true;
 	}
@@ -141,4 +133,8 @@ exports.atRewardThreshold = function(){
 	}
 
 	return false;
+}
+
+exports.debug = function(){
+	return scoreDecks[currentDeck];
 }

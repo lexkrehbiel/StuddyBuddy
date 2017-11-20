@@ -51,7 +51,8 @@ exports.Responses = {
           app.setContext(SWITCH_CONTEXT);
           return "So what topic did you want to switch to?"
     }
-    return "WE SHOULDN'T BE SEEING THIS";
+    app.setContext(AGAIN_CONTEXT);
+    return "Would you like to go back to your last card?";
   }
 
 }

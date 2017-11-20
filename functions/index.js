@@ -14,7 +14,7 @@ const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
-const HINT_ACTION = 'hint';
+const HINT_ACTION = 'ask_hint';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
@@ -36,20 +36,8 @@ var current = -1;
 
 function getStats(deckName){
 
-    if(deckName == NULL){
-      let scoreRes = ScoreKeeper.getCorrectCount();
-      let totalRes = ScoreKeeper.getTotalCount();
-    }
-    else{
       let scoreRes = ScoreKeeper.getCorrectCount(deckName);
-
-      if(scoreRes == -1){
-        return "Sorry that's not a deck that we currently support";
-      }
-
       let totalRes = ScoreKeeper.getTotalCount(deckName);
-    }
-
 
     return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
 }
@@ -88,8 +76,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       ScoreKeeper.markWrong();
 
       
-      if(ScoreKeeper.atWrongThreshold()){
-        //Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
+      if(ScoreKeeper.atHintThreshold()){
         app.setContext(HINT_CONTEXT);
         app.ask("Ah well, would you like a hint?");
       }
@@ -137,7 +124,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     }
 
     // if he gave an answer, check it
-    else if ( try_again == YES && answer != null ) {
+    else if ( answer != null ) {
 
       // respond according to the answer given
       assessResponse(answer);
@@ -187,6 +174,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
+  actionMap.set(HINT_ACTION, ask_hint)
 
   app.handleRequest(actionMap);
 });
