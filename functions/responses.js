@@ -31,6 +31,11 @@ exports.Responses = {
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
+
+  good_job : function(){
+    return "You're doing great!";
+  },
+
   getBackTo : function(app){
     switch(app.getContext()){
       case ASSESS_CONTEXT:
@@ -46,7 +51,7 @@ exports.Responses = {
           app.setContext(SWITCH_CONTEXT);
           return "So what topic did you want to switch to?"
     }
-    return "DEBUG";
+    return "WE SHOULDN'T BE SEEING THIS";
   }
 
 }

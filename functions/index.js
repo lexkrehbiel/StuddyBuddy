@@ -26,6 +26,7 @@ const SWITCH_CONTEXT = "switch";
 const ANSWER_ARGUMENT = 'answer';
 const TRY_AGAIN_ARGUMENT = 'try_again';
 const GET_HINT_ARGUMENT = 'y_n_hint';
+const SUBJECT_ARGUMENT = 'subject';
 
 
 const YES = 'Yes';
@@ -33,8 +34,24 @@ const NO = 'No';
 
 var current = -1;
 
-function getStats(){
-    return "You have answered " + ScoreKeeper.getCorrectCount() + " out of " + ScoreKeeper.getTotalCount() + " total questions";
+function getStats(deckName){
+
+    if(deckName == NULL){
+      let scoreRes = ScoreKeeper.getCorrectCount();
+      let totalRes = ScoreKeeper.getTotalCount();
+    }
+    else{
+      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
+
+      if(scoreRes == -1){
+        return "Sorry that's not a deck that we currently support";
+      }
+
+      let totalRes = ScoreKeeper.getTotalCount(deckName);
+    }
+
+
+    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
 }
 
 // attach all the functions to studdyBuddy!
@@ -53,15 +70,16 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       app.setContext(ASSESS_CONTEXT);
       ScoreKeeper.markCorrect();
 
-      /*
-		if(ScoreKeeper.atRewardThreshold()){
+      
+		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
-		  app.ask( Responses.good_job() + " " + Responses.getStats + " " + Responses.new_card());
-    }
-    else{
-      */
+		    app.ask( Responses.good_job() + " " + Responses.getStats + " " + Responses.new_card());
+      }
+      else{
+      
 
-      app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+        app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+      }
     }
 
     // if wrong, alert user and ask to try again
@@ -69,17 +87,18 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       ScoreKeeper.markWrong();
 
-      /*
+      
       if(ScoreKeeper.atWrongThreshold()){
         //Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
-        app.setContext(HINT_CONTEXT_CONTEXT);
+        app.setContext(HINT_CONTEXT);
         app.ask("Ah well, would you like a hint?");
       }
       else{
-      */
+      
 
-      app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.incorrect_try_again(user_raw) );
+        app.setContext(AGAIN_CONTEXT);
+        app.ask( Responses.incorrect_try_again(user_raw) );
+      }
     }
 
   }
@@ -158,7 +177,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     
-    app.ask(getStats() + "\n" + Responses.getBackTo(app);
+    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app);
   }
 
   let actionMap = new Map();

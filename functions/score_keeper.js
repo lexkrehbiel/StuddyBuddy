@@ -27,6 +27,16 @@ var streak_threshold = generateThreshold(7, 13);
 var correct_threshold = generateThreshold(10, 16);
 
 
+var findDeck = function(deckName){
+	for(var i = 0; i < scoreDecks.length; i++){
+		if(scoreDecks[i].title == deckName){
+			return scoreDecks[i];
+		}
+	}
+
+	return null;
+}
+
 var generateThreshold = function(start, end){
 	return Math.floor(Math.random() * (end-start)) + start;
 }
@@ -52,6 +62,36 @@ exports.getStreakCount = function(){
 
 exports.getSkipCount = function(){
 	return scoreDecks[currentDeck].total - scoreDecks[currentDeck].correct;
+}
+
+exports.getCorrectCount = function(deckName){
+	let deck = findDeck(deckName);
+
+	if(deck == NULL){
+		return -1;
+	}
+
+	return scoreDecks[currentDeck].correct;
+}
+
+exports.getTotalCount = function(deckName){
+	let deck = findDeck(deckName);
+
+	if(deck == NULL){
+		return -1;
+	}
+
+	return scoreDecks[currentDeck].total;
+}
+
+exports.getSkipCount = function(deckName){
+	let deck = findDeck(deckName);
+
+	if(deck == NULL){
+		return -1;
+	}
+	
+	return deck.total - deck.correct;
 }
 
 
