@@ -5,6 +5,7 @@ const App = require('actions-on-google').DialogflowApp;
 const functions = require('firebase-functions');
 var Responses = require('./responses.js').Responses;
 var Cards = require('./card_manager.js');
+var ScoreKeeper = require('./score_keeper.js');
 
 // ACTIONS
 const ASSESS_ACTION = 'assess_response';
@@ -13,31 +14,32 @@ const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
-const HINT_ACTION = 'hint';
+const HINT_ACTION = 'ask_hint';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
+const HINT_CONTEXT = "hint";
+const SWITCH_CONTEXT = "switch";
 
 // ARGUMENTS
 const ANSWER_ARGUMENT = 'answer';
 const TRY_AGAIN_ARGUMENT = 'try_again';
+const GET_HINT_ARGUMENT = 'y_n_hint';
+const SUBJECT_ARGUMENT = 'subject';
+
 
 const YES = 'Yes';
 const NO = 'No';
 
 var current = -1;
-var correctCount = 0;
-var skipCount = 0;
-var againCount = 0;
-var secondTry = false;
 
-function getStats(){
-    return "You have answered " + correctCount + " out of " + (correctCount+skipCount) + " total questions";
-}
+function getStats(deckName){
 
-function getBackTo(){
-    return "Would you like to go back to your last card?"
+      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
+      let totalRes = ScoreKeeper.getTotalCount(deckName);
+
+    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
 }
 
 // attach all the functions to studdyBuddy!
@@ -54,13 +56,36 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     // if correct, alert user and move to a new card
     if ( user_ans == correct_ans ){
       app.setContext(ASSESS_CONTEXT);
-      app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+      ScoreKeeper.markCorrect();
+
+      
+		  if(ScoreKeeper.atRewardThreshold()){
+			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
+		    app.ask( Responses.good_job() + " " + getStats() + " " + Responses.new_card());
+      }
+      else{
+      
+
+        app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+      }
     }
 
     // if wrong, alert user and ask to try again
     else {
-      app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.incorrect_try_again(user_raw) );
+
+      ScoreKeeper.markWrong();
+
+      
+      if(ScoreKeeper.atHintThreshold()){
+        app.setContext(HINT_CONTEXT);
+        app.ask("Ah well, would you like a hint?");
+      }
+      else{
+      
+
+        app.setContext(AGAIN_CONTEXT);
+        app.ask( Responses.incorrect_try_again(user_raw) );
+      }
     }
 
   }
@@ -85,6 +110,10 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     // if he doesn't want to try again, give him the answer and move on.
     if ( try_again == NO){
       app.setContext(ASSESS_CONTEXT);
+
+      //ScoreKeeper.markSkip(deckNum);
+
+      ScoreKeeper.markSkip();
       app.ask( Responses.incorrect_give_answer() + " " + Responses.new_card() );
     }
 
@@ -95,11 +124,25 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     }
 
     // if he gave an answer, check it
-    else if ( try_again == YES && answer != null ) {
+    else if ( answer != null ) {
 
       // respond according to the answer given
       assessResponse(answer);
 
+    }
+  }
+
+  function ask_hint(app){
+    let get_hint = app.getArgument(GET_HINT_ARGUMENT);
+
+    if(get_hint == YES){
+      app.setContext(ASSESS_CONTEXT);
+      app.ask( Cards.getCurrentHint() + " Let's try this again!" );
+    }
+
+    else{
+      app.setContext(AGAIN_CONTEXT);
+      app.ask( Responses.incorrect_try_again(user_raw) );
     }
   }
 
@@ -120,8 +163,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   function getScore(app){
-    app.setContext(AGAIN_CONTEXT);
-    app.ask(getStats() + "\n" + getBackTo());
+    
+    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
   }
 
   let actionMap = new Map();
@@ -131,6 +174,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
+  actionMap.set(HINT_ACTION, ask_hint)
 
   app.handleRequest(actionMap);
 });
