@@ -31,6 +31,7 @@ exports.Responses = {
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
+<<<<<<< HEAD
 
   good_job : function(){
     return "You're doing great!";
@@ -53,6 +54,21 @@ exports.Responses = {
     }
     app.setContext(AGAIN_CONTEXT);
     return "Would you like to go back to your last card?";
+  },
+
+  skip : function(){
+    var resp = "Okay, we'll skip '" + Cards.getCurrentQuestion()
+      + "\' The answer is \'"+ Cards.getCurrentAnswer() + "\'";
+    Cards.goToNextCard();
+    return resp + " Here's a new one: \'"+Cards.getCurrentQuestion()+"\'";
+  },
+
+  hint : function(){
+    if ( Cards.getCurrentHint() ) {
+      return "Here's a hint! \'"+ Cards.getCurrentHint()+"\' What do you think is the answer?";
+    } else {
+      return "Sorry, I don't know any hints for this question! Here's the question again: \'"+ Cards.getCurrentQuestion()+"\'";
+    }
   }
 
 }
