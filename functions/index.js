@@ -115,7 +115,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function selectDeck(app) {
     app.setContext(DECK_SELECT_CONTEXT)
     // TODO: Add suggestions on topics to study.
-    app.ask( "What deck would you like to study?");
+  }
 
   // ask the user about a new card after welcoming him
   function firstNewCard(app) {
