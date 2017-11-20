@@ -14,6 +14,7 @@ const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
 const HINT_ACTION = 'hint';
+const SKIP_ACTION = 'skip';
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
@@ -124,6 +125,11 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.ask(getStats() + "\n" + getBackTo());
   }
 
+
+  function skip(app){
+    app.setContext(ASSESS_CONTEXT);
+    app.ask( Responses.skip() );
+  }
   function giveHint(app){
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.hint() );
@@ -131,6 +137,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   let actionMap = new Map();
   actionMap.set(ASSESS_ACTION, doAssessResponse);
+  actionMap.set(SKIP_ACTION, skip);
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(HINT_ACTION, giveHint);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
