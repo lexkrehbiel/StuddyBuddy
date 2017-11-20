@@ -1,6 +1,6 @@
 //Eventually have a deck JSON to track score per deck???
 var fs = require('fs');
-var decks = JSON.parse(fs.readFileSync('quiz.json', 'utf8'))[0];
+var decks = JSON.parse(fs.readFileSync('quiz.json', 'utf8'));
 
 var scoreDecks = [];
 
@@ -8,7 +8,7 @@ for(var i = 0; i < decks.length; i++){
 	scoreDecks.push( {
 		title: decks[i].title,
 		subject: decks[i].subject,
-		totalCards: decks[i].cards.length,,
+		totalCards: decks[i].cards.length,
 		correct: 0,
 		total: 0,
 		streak: 0
@@ -22,6 +22,10 @@ var thresh_streak = 0;
 var wrong_thresh = 2;
 
 var wrongStreak = 0;
+
+var generateThreshold = function(start, end){
+	return Math.floor(Math.random() * (end-start)) + start;
+}
 
 var streak_threshold = generateThreshold(7, 13);
 var correct_threshold = generateThreshold(10, 16);
@@ -37,9 +41,7 @@ var findDeck = function(deckName){
 	return null;
 }
 
-var generateThreshold = function(start, end){
-	return Math.floor(Math.random() * (end-start)) + start;
-}
+
 
 exports.setCurrentDeck = function(deckNum){
 	scoreDecks[currentDeck].streak = 0;
@@ -90,7 +92,7 @@ exports.getSkipCount = function(deckName){
 	if(deck == NULL){
 		return -1;
 	}
-	
+
 	return deck.total - deck.correct;
 }
 
@@ -117,7 +119,7 @@ exports.markSkip = function(){
 }
 
 
-exports.atHintThreshold() = function(){
+exports.atHintThreshold = function(){
 	if(wrongStreak > wrong_thresh){
 		wrongStreak = 0;
 		return true;
@@ -128,7 +130,7 @@ exports.atHintThreshold() = function(){
 exports.atRewardThreshold = function(){
 	//Eventually integrate with some deck percentage
 	
-	if (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold){
+	if( (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold)){
 		streak_threshold = generateThreshold(7, 13);
 		correct_threshold = generateThreshold(10, 16);
 

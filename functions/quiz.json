@@ -1,10 +1,8 @@
-{
-   "game": {
-      "Deck": [ 
-         {
-            "title": "Random Trivia",
-            "subject": "Science",
-            "cards": [
+[ 
+      {
+         "title": "Random Trivia",
+         "subject": "Science",
+         "cards": [
                {
                   "question": "What is the melting point of water?",
                   "hint": "Celsius scale is defined by the melting and boiling point of water.",
@@ -35,12 +33,12 @@
                   "hint": "Neutral pH is lower than 9",
                   "answer": "Seven"
                }
-            ]
-         }
-         {
-            "title": "Vocabulary One",
-            "subject": "English",
-            "cards": [
+         ]
+      },
+      {
+         "title": "Vocabulary One",
+         "subject": "English",
+         "cards": [
                {
                   "question": "A sentimental longing or wistful affection for the past",
                   "hint": "No Hint",
@@ -57,9 +55,9 @@
                   "answer": "Hierarchy"
                }
             ]
-         }
-         {
-            "title": "Common Phrases",
+      },
+      {
+         "title": "Common Phrases",
             "subject": "Latin",
             "cards": [
                {
@@ -98,7 +96,5 @@
                   "answer": "OUt of many, one"
                }
             ]
-         }
-      ]
-   }
-}
+      }
+]

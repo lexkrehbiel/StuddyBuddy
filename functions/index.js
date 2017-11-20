@@ -73,7 +73,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       
 		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
-		    app.ask( Responses.good_job() + " " + Responses.getStats + " " + Responses.new_card());
+		    app.ask( Responses.good_job() + " " + getStats() + " " + Responses.new_card());
       }
       else{
       
@@ -177,7 +177,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     
-    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app);
+    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
   }
 
   let actionMap = new Map();
