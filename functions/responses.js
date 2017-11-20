@@ -31,7 +31,9 @@ exports.Responses = {
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
-
+  ask_deck : function(){
+    return "What deck would you like to study today?";
+  },
   good_job : function(){
     return "You're doing great!";
   },

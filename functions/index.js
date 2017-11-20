@@ -12,6 +12,8 @@ const ASSESS_ACTION = 'assess_response';
 const TRY_AGAIN_ACTION = 'try_again_answer';
 const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
+const SELECT_DECK_ACTION = 'select_deck';
+const SWITCH_DECK_ACTION = 'switch_deck';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
 const HINT_ACTION = 'ask_hint';
@@ -19,6 +21,7 @@ const HINT_ACTION = 'ask_hint';
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
+const DECK_CONTEXT = "deck";
 const HINT_CONTEXT = "hint";
 const SWITCH_CONTEXT = "switch";
 
@@ -150,6 +153,17 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function getNewCard(app) {
     app.setContext(ASSESS_CONTEXT);
     app.ask( Resonses.new_card() );
+  }
+
+  // ask the user to select a deck
+  function selectDeck(app) {
+    app.ask( Responses.ask_deck() );
+    // TODO: Add sugesponsegestions on topics to study.
+  }
+
+  // user says he wants to switch
+  function switchDeck(app) {
+    app.setContext(DECK_SELECT_CONTEXT);
   }
 
   // ask the user about a new card after welcoming him
