@@ -113,8 +113,13 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // ask the user to select a deck
   function selectDeck(app) {
-    app.setContext(DECK_SELECT_CONTEXT)
-    // TODO: Add suggestions on topics to study.
+    app.ask( Responses.ask_deck() );
+    // TODO: Add sugesponsegestions on topics to study.
+  }
+
+  // user says he wants to switch
+  function switchDeck(app) {
+    app.setContext(DECK_SELECT_CONTEXT);
   }
 
   // ask the user about a new card after welcoming him

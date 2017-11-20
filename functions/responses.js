@@ -16,6 +16,9 @@ exports.Responses = {
   ask_answer : function(){
     return "Ok! Here's the question again: \'"+Cards.getCurrentQuestion()+"\'?";
   },
+  ask_deck : function(){
+    return "What deck would you like to study today?";
+  },
   new_card : function(){
     Cards.goToNextCard();
     return "Answer this: \'"+Cards.getCurrentQuestion()+"\'?";
