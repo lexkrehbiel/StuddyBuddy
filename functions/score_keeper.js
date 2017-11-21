@@ -1,6 +1,6 @@
 //Eventually have a deck JSON to track score per deck???
 var fs = require('fs');
-var decks = JSON.parse(fs.readFileSync('./functions/quiz.json', 'utf8'));
+var decks = JSON.parse(fs.readFileSync('quiz.json', 'utf8'));
 
 var scoreDecks = [];
 
