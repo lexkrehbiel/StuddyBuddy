@@ -33,6 +33,7 @@ const ANSWER_ARGUMENT = 'answer';
 const TRY_AGAIN_ARGUMENT = 'try_again';
 const GET_HINT_ARGUMENT = 'y_n_hint';
 const SUBJECT_ARGUMENT = 'subject';
+const TITLE_ARGUMENT = 'title';
 
 
 const YES = 'Yes';
@@ -161,16 +162,15 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   // ask the user to select a deck
   function selectDeck(app) {
     app.setContext(DECK_CONTEXT);
-    app.ask( Responses.ask_deck() );
-    // TODO: Add sugesponsegestions on topics to study.
-    let answer = app.getArgument(ANSWER_ARGUMENT);
+    app.ask( Responses.select_deck() );
+    let answer = app.getArgument(TITLE_ARGUMENT);
+    let answer = app.getArgument(SUBJECT_ARGUMENT);
   }
 
   // user says he wants to switch
   function switchDeck(app) {
-    if(1 == 1) {
-      app.setContext(ASSESS_CONTEXT);
-    }
+    // Valid Deck Selected
+   app.ask( Responses.switch_deck() );
   }
 
   // ask the user about a new card after welcoming him

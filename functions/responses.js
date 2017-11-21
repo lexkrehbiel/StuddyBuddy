@@ -28,17 +28,19 @@ exports.Responses = {
     Cards.goToNextCard();
     return "Answer this: \'"+Cards.getCurrentQuestion()+"\'?";
   },
+  select_deck : function(){ // TODO: Add deck suggestions
+    return "Ok! What deck would you like to study?";
+  }
+  switch_deck : function(app){
+    app.setContext(ASSES_CONTEXT);
+    return "Ok! Switching to deck " + Cards.getCurrentTitle() + "\'" + Cards.getCurrentQuestion()+"\'?";
+  },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
-<<<<<<< HEAD
   ask_deck : function(){
     return "What deck would you like to study today?";
   },
-=======
-<<<<<<< HEAD
-
->>>>>>> db8a1557b8c74d364dd6e97715692b1496d8aebf
   good_job : function(){
     return "You're doing great!";
   },
