@@ -1,7 +1,7 @@
 
 // pull in the card data from a specified JSON file
 var fs = require('fs');
-var collection = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+var collection = JSON.parse(fs.readFileSync('./functions/quiz.json', 'utf8'));
 var deck = collection[0];
 
 // initially, set to just before the first card
@@ -38,6 +38,6 @@ exports.goToNextCard = function(){
 }
 
 // set the current deck
-exports.setDeck = funtion(){
+exports.setDeck = function(){
   deck = collection[0];
 }

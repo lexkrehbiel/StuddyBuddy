@@ -163,8 +163,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function selectDeck(app) {
     app.setContext(DECK_CONTEXT);
     app.ask( Responses.select_deck() );
-    let answer = app.getArgument(TITLE_ARGUMENT);
-    let answer = app.getArgument(SUBJECT_ARGUMENT);
+    let title = app.getArgument(TITLE_ARGUMENT);
+    let subject = app.getArgument(SUBJECT_ARGUMENT);
   }
 
   // user says he wants to switch
