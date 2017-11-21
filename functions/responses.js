@@ -31,8 +31,6 @@ exports.Responses = {
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
-<<<<<<< HEAD
-
   good_job : function(){
     return "You're doing great!";
   },
