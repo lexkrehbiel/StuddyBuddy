@@ -31,9 +31,14 @@ exports.Responses = {
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
   },
+<<<<<<< HEAD
   ask_deck : function(){
     return "What deck would you like to study today?";
   },
+=======
+<<<<<<< HEAD
+
+>>>>>>> db8a1557b8c74d364dd6e97715692b1496d8aebf
   good_job : function(){
     return "You're doing great!";
   },
@@ -55,6 +60,21 @@ exports.Responses = {
     }
     app.setContext(AGAIN_CONTEXT);
     return "Would you like to go back to your last card?";
+  },
+
+  skip : function(){
+    var resp = "Okay, we'll skip '" + Cards.getCurrentQuestion()
+      + "\' The answer is \'"+ Cards.getCurrentAnswer() + "\'";
+    Cards.goToNextCard();
+    return resp + " Here's a new one: \'"+Cards.getCurrentQuestion()+"\'";
+  },
+
+  hint : function(){
+    if ( Cards.getCurrentHint() ) {
+      return "Here's a hint! \'"+ Cards.getCurrentHint()+"\' What do you think is the answer?";
+    } else {
+      return "Sorry, I don't know any hints for this question! Here's the question again: \'"+ Cards.getCurrentQuestion()+"\'";
+    }
   }
 
 }
