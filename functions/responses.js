@@ -30,7 +30,7 @@ exports.Responses = {
   },
   select_deck : function(){ // TODO: Add deck suggestions
     return "Ok! What deck would you like to study?";
-  }
+  },
   switch_deck : function(app){
     app.setContext(ASSES_CONTEXT);
     return "Ok! Switching to deck " + Cards.getCurrentTitle() + "\'" + Cards.getCurrentQuestion()+"\'?";
