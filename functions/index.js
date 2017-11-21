@@ -157,13 +157,17 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // ask the user to select a deck
   function selectDeck(app) {
+    app.setContext(DECK_CONTEXT);
     app.ask( Responses.ask_deck() );
     // TODO: Add sugesponsegestions on topics to study.
+    let answer = app.getArgument(ANSWER_ARGUMENT);
   }
 
   // user says he wants to switch
   function switchDeck(app) {
-    app.setContext(DECK_SELECT_CONTEXT);
+    if(1 == 1) {
+      app.setContext(ASSESS_CONTEXT);
+    }
   }
 
   // ask the user about a new card after welcoming him
@@ -186,6 +190,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(TRY_AGAIN_ACTION, tryAgain);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
+  actionMap.set(SELECT_DECK_ACTION, selectDeck);
+  actionMap.set(SWITCH_DECK_ACTION, switchDeck);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
   actionMap.set(HINT_ACTION, ask_hint)
