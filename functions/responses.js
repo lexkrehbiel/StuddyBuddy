@@ -1,6 +1,6 @@
 // module for cards
 var Cards = require('./card_manager.js');
-
+var ScoreKeeper = require('./score_keeper.js');
 
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
@@ -46,9 +46,16 @@ exports.Responses = {
   welcome : function(){
     return random_response('welcome');
   },
-
   good_job : function(){
     return random_response('encouragement');
+  },
+
+  getStats : function(deckName){
+
+      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
+      let totalRes = ScoreKeeper.getTotalCount(deckName);
+
+    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
   },
 
   getBackTo : function(app){
