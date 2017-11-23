@@ -2,6 +2,7 @@
       {
          "title": "Random Trivia",
          "subject": "Science",
+         "sticker": "bunsen burner",
          "cards": [
                {
                   "question": "What is the melting point of water?",
@@ -38,6 +39,7 @@
       {
          "title": "Vocabulary One",
          "subject": "English",
+         "sticker": "bookworm",
          "cards": [
                {
                   "question": "A sentimental longing or wistful affection for the past",
@@ -59,6 +61,7 @@
       {
          "title": "Common Phrases",
             "subject": "Latin",
+            "sticker": "scroll",
             "cards": [
                {
                   "question": "Carpe Diem",

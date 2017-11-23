@@ -37,14 +37,6 @@ const NO = 'No';
 
 var current = -1;
 
-function getStats(deckName){
-
-      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
-      let totalRes = ScoreKeeper.getTotalCount(deckName);
-
-    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
-}
-
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
@@ -167,7 +159,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     
-    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
+    app.ask(Responses.getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
   }
 
 
