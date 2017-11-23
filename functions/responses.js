@@ -8,33 +8,47 @@ const AGAIN_CONTEXT = "again";
 const HINT_CONTEXT = "hint";
 const SWITCH_CONTEXT = "switch";
 
+function random(ceiling){
+  return Math.floor(Math.random()*ceiling);
+}
+
 
 // canned response functions, self-explanatory by their titles
 // later, we can replace these with arrays so it's less repetitive
 exports.Responses = {
   correct : function(ans){
-    return "\'"+ans + "\' is correct! Moving on...";
+    return inQuotes( ans )
+      + " " + random_response('correct')
+      + " " + random_response('encouragement')
+      + " " + random_response('forward');
   },
   incorrect_try_again : function (ans){
-    return "\'"+ans + "\' is incorrect. Would you like to try again?";
+    return inQuotes( ans )
+      + " " + random_response('incorrect')
+      + " " + random_response('try_again');
   },
   incorrect_give_answer : function (ans){
-    return "Okay. The correct answer is "+Cards.getCurrentAnswer()+".";
+    return random_response('acknowledge')
+      + " " + random_response('give_answer')
+      + " " + inQuotes( Cards.getCurrentAnswer() ) + "."
+      + " " + random_response('forward');
   },
   ask_answer : function(){
-    return "Ok! Here's the question again: \'"+Cards.getCurrentQuestion()+"\'?";
+    return random_response('acknowledge')
+      + " " + random_response('repeat')
+      + " " + inQuotes( Cards.getCurrentQuestion() );
   },
   new_card : function(){
     Cards.goToNextCard();
-    return "Answer this: \'"+Cards.getCurrentQuestion()+"\'?";
+    return random_response('ask_answer')
+      + " " + inQuotes( Cards.getCurrentQuestion() );
   },
   welcome : function(){
-    return "Welcome to Study Buddy! Let's go!";
+    return random_response('welcome');
   },
-<<<<<<< HEAD
 
   good_job : function(){
-    return "You're doing great!";
+    return random_response('encouragement');
   },
 
   getBackTo : function(app){
@@ -57,18 +71,117 @@ exports.Responses = {
   },
 
   skip : function(){
-    var resp = "Okay, we'll skip '" + Cards.getCurrentQuestion()
-      + "\' The answer is \'"+ Cards.getCurrentAnswer() + "\'";
+    var resp = random_response('acknowledge')
+      + " " + random_response('skip')
+      + " " + inQuotes( Cards.getCurrentQuestion() ) + "."
+      + " " + random_response('give_answer')
+      + " " + inQuotes( Cards.getCurrentAnswer() ) + ".";
     Cards.goToNextCard();
-    return resp + " Here's a new one: \'"+Cards.getCurrentQuestion()+"\'";
+    return resp
+      + " " + random_response('ask_answer')
+      + " " + inQuotes( Cards.getCurrentQuestion() );
   },
 
   hint : function(){
     if ( Cards.getCurrentHint() ) {
-      return "Here's a hint! \'"+ Cards.getCurrentHint()+"\' What do you think is the answer?";
+      return random_response('hint')
+        + " " + inQuotes( Cards.getCurrentHint() ) + "."
+        + " " + random_response('re_ask');
     } else {
-      return "Sorry, I don't know any hints for this question! Here's the question again: \'"+ Cards.getCurrentQuestion()+"\'";
+      return random_response('no_hint')
+        + " " + random_response('repeat')
+        + " " + inQuotes( Cards.getCurrentQuestion() );
     }
   }
 
+}
+
+var helpers = {
+  encouragement: [
+    'Right on!',
+    'Great job!',
+    'Great!',
+    'Wonderful!',
+    'Woohoo!',
+    'You\'re doing great!',
+    'Awesome job!'
+  ],
+  correct: [
+    'is just right.',
+    'is correct!',
+    'is exactly right',
+    'is spot on!'
+  ],
+  forward: [
+    'Moving on ...',
+    'Let\'s keep going!',
+    'Onward!',
+    'Now for the next one.'
+  ],
+  incorrect: [
+    'is not quite right.',
+    'is a little off.'
+  ],
+  try_again: [
+    'Would you like to try again?',
+    'Will you give it another shot?',
+    'Want to give it another go?'
+  ],
+  acknowledge: [
+    'Okay!',
+    'Alright then.',
+    'Swell!'
+  ],
+  give_answer: [
+    'Here\'s the right answer: ',
+    'Here\'s the correct answer: ',
+    'The right answer is: ',
+    'The correct answer is: '
+  ],
+  repeat: [
+    'Here\'s the question again:',
+    'I\'ll repeat the question for you:'
+  ],
+  ask_answer: [
+    'Answer this: ',
+    'Can you answer this? ',
+    'Here\'s your question: '
+  ],
+  welcome: [
+    'Welcome to Study Buddy! Let\'s go!',
+    'Hi there! Let\'s get learning!'
+  ],
+  skip: [
+    'We\'ll skip',
+    'We\'ll move past',
+    'We can skip'
+  ],
+  hint: [
+    'Here\'s a hint:',
+    'Maybe this will help:'
+  ],
+  re_ask: [
+    'Any new ideas on the answer?',
+    'What do you think the answer is?',
+    'Any ideas?',
+    'Do you have an answer?'
+  ],
+  no_hint: [
+    'Oh no! It looks like I can\'t help you with this one.',
+    'Drat, I don\'t have a hint for this one.',
+    'Darn! I want to help you, but I don\'t have a hint for this question.'
+  ]
+
+
+}
+
+function random_response(key){
+  list = helpers[key];
+  ceil = list.length;
+  rand = Math.floor( Math.random() * ceil);
+  return list[rand];
+}
+
+function inQuotes(string){
+  return "\'"+string+"\'";
 }
