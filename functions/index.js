@@ -138,7 +138,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     else if (get_hint == NO){
       app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.getBackTo() );
+      app.ask( Responses.getBackTo(app) );
     }
   }
 
