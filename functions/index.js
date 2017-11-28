@@ -24,6 +24,7 @@ const SKIP_ACTION = 'skip';
 // CONTEXTS
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
+const ASK_HINT_CONTEXT = "hint";
 const DECK_CONTEXT = "deck";
 const HINT_CONTEXT = "hint";
 const SWITCH_CONTEXT = "switch";
@@ -40,14 +41,6 @@ const YES = 'Yes';
 const NO = 'No';
 
 var current = -1;
-
-function getStats(deckName){
-
-      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
-      let totalRes = ScoreKeeper.getTotalCount(deckName);
-
-    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
-}
 
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
@@ -134,6 +127,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     else if ( answer != null ) {
 
       // respond according to the answer given
+      app.setContext(ASSESS_CONTEXT);
       assessResponse(answer);
 
     }
@@ -147,9 +141,9 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       app.ask( Cards.getCurrentHint() + " Let's try this again!" );
     }
 
-    else{
+    else if (get_hint == NO){
       app.setContext(AGAIN_CONTEXT);
-      app.ask( Responses.incorrect_try_again(user_raw) );
+      app.ask( Responses.getBackTo(app) );
     }
   }
 
@@ -185,7 +179,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     
-    app.ask(getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
+    app.ask(Responses.getStats(app.getArgument(SUBJECT_ARGUMENT)) + "\n" + Responses.getBackTo(app));
   }
 
 
@@ -209,7 +203,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(SWITCH_DECK_ACTION, switchDeck);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
-  actionMap.set(HINT_ACTION, ask_hint)
+  actionMap.set(ASK_HINT_ACTION, ask_hint)
 
   app.handleRequest(actionMap);
 });
