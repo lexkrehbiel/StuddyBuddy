@@ -13,6 +13,7 @@ const TRY_AGAIN_ACTION = 'try_again_answer';
 const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
 const SELECT_DECK_ACTION = 'select_deck';
+const LIST_DECK_ACTION = 'list_deck';
 const SWITCH_DECK_ACTION = 'switch_deck';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
@@ -25,7 +26,7 @@ const SKIP_ACTION = 'skip';
 const ASSESS_CONTEXT = "assess";
 const AGAIN_CONTEXT = "again";
 const ASK_HINT_CONTEXT = "hint";
-const DECK_CONTEXT = "deck";
+const SELECT_CONTEXT = "select";
 const HINT_CONTEXT = "hint";
 const SWITCH_CONTEXT = "switch";
 
@@ -154,17 +155,27 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   // ask the user to select a deck
-  function selectDeck(app) {
-    app.setContext(DECK_CONTEXT);
-    app.ask( Responses.select_deck() );
+  function switchDeck(app) {
     let title = app.getArgument(TITLE_ARGUMENT);
-    let subject = app.getArgument(SUBJECT_ARGUMENT);
+    if( Cards.setDeck(title) ) {
+      app.setContext(ASSESS_CONTEXT);
+      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ".\' " + Responses.new_card() );
+    }
+    else {
+      app.ask( "Could not find deck " + title );
+    }
+  }
+
+  // list all the deck names
+  function listDeck(app) {
+    app.ask( Responses.list_deck() );
   }
 
   // user says he wants to switch
-  function switchDeck(app) {
+  function selectDeck(app) {
+    app.setContext(SELECT_CONTEXT);
     // Valid Deck Selected
-   app.ask( Responses.switch_deck() );
+   app.ask( Responses.select_deck() );
   }
 
   // ask the user about a new card after welcoming him
@@ -200,6 +211,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
   actionMap.set(SELECT_DECK_ACTION, selectDeck);
+  actionMap.set(LIST_DECK_ACTION, listDeck);
   actionMap.set(SWITCH_DECK_ACTION, switchDeck);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);

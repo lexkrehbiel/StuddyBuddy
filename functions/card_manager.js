@@ -37,7 +37,23 @@ exports.goToNextCard = function(){
   current = (current + 1) % (decks[num]).cards.length;
 }
 
+// return list of decks
+exports.getDecks = function(){
+  var names = "";
+  for (i = 0; i < (decks.length - 1); i++) {
+    names += (decks[i]).title + ", ";
+  }
+  names += (" and " + (decks[decks.length - 1]).title + ".");
+  return names;
+}
+
 // set the current deck
-exports.setDeck = function(){
-  num = 0;
+exports.setDeck = function(name){
+  for (i = 0; i < (decks.length - 1); i++) {
+    if ((name.toLowerCase()) == ((decks[i]).title.toLowerCase())) {
+      num = i;
+      return true;
+    }
+  }
+  return false;
 }

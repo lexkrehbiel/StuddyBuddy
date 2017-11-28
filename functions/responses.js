@@ -31,9 +31,11 @@ exports.Responses = {
   select_deck : function(){ // TODO: Add deck suggestions
     return "Ok! What deck would you like to study?";
   },
-  switch_deck : function(app){
-    app.setContext(ASSES_CONTEXT);
-    return "Ok! Switching to deck " + Cards.getCurrentTitle() + "\'" + Cards.getCurrentQuestion()+"\'?";
+  list_deck : function(){
+    return "Ok! Here are the decks you can study: " + Cards.getDecks();
+  },
+  switch_deck : function(){
+    return "Ok! " + Cards.SetDeck() + "\'" + Cards.getCurrentQuestion()+"\'?";
   },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
