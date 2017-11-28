@@ -28,14 +28,11 @@ exports.Responses = {
     Cards.goToNextCard();
     return "Answer this: \'"+Cards.getCurrentQuestion()+"\'?";
   },
-  select_deck : function(){ // TODO: Add deck suggestions
-    return "Ok! What deck would you like to study?";
+  select_deck : function(){
+    return "What deck would you like to study? \'" + Cards.getDeckSuggestion();
   },
   list_deck : function(){
     return "Ok! Here are the decks you can study: " + Cards.getDecks();
-  },
-  switch_deck : function(){
-    return "Ok! " + Cards.SetDeck() + "\'" + Cards.getCurrentQuestion()+"\'?";
   },
   welcome : function(){
     return "Welcome to Study Buddy! Let's go!";
@@ -87,6 +84,10 @@ exports.Responses = {
     } else {
       return "Sorry, I don't know any hints for this question! Here's the question again: \'"+ Cards.getCurrentQuestion()+"\'";
     }
+  },
+
+  exit : function(){
+    return "Thanks for studying with us! Have a great day!";
   }
 
 }

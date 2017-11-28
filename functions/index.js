@@ -154,7 +154,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.ask( Resonses.new_card() );
   }
 
-  // ask the user to select a deck
+  // switch to user specified deck and give new card
   function switchDeck(app) {
     let title = app.getArgument(TITLE_ARGUMENT);
     if( Cards.setDeck(title) ) {
@@ -174,18 +174,17 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   // user says he wants to switch
   function selectDeck(app) {
     app.setContext(SELECT_CONTEXT);
-    // Valid Deck Selected
-   app.ask( Responses.select_deck() );
+    app.ask( Responses.select_deck() );
   }
 
   // ask the user about a new card after welcoming him
   function firstNewCard(app) {
-    app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.welcome() +  " " + Responses.new_card());
+    app.setContext(SELECT_CONTEXT);
+    app.ask( Responses.welcome() +  " \' " + Responses.select_deck() );
   }
 
   function quitStudy(app) {
-	  app.tell("Thanks for studying with us! Have a great day!");
+	  app.tell( Responses.exit() );
   }
 
   function getScore(app){

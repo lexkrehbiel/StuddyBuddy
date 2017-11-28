@@ -57,3 +57,8 @@ exports.setDeck = function(name){
   }
   return false;
 }
+
+// return the name of suggested deck
+exports.getDeckSuggestion = function(){
+  return "Deck recommendation not yet implemented.";
+}
