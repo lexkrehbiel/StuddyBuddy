@@ -2,12 +2,6 @@
 var Cards = require('./card_manager.js');
 var ScoreKeeper = require('./score_keeper.js');
 
-// CONTEXTS
-const ASSESS_CONTEXT = "assess";
-const AGAIN_CONTEXT = "again";
-const HINT_CONTEXT = "hint";
-const SWITCH_CONTEXT = "switch";
-
 function random(ceiling){
   return Math.floor(Math.random()*ceiling);
 }
@@ -27,16 +21,14 @@ exports.Responses = {
       + " " + random_response('incorrect')
       + " " + random_response('try_again');
   },
+  give_options : function (){
+    return random_response('options');
+  },
   incorrect_give_answer : function (ans){
     return random_response('acknowledge')
       + " " + random_response('give_answer')
       + " " + inQuotes( Cards.getCurrentAnswer() ) + "."
       + " " + random_response('forward');
-  },
-  ask_answer : function(){
-    return random_response('acknowledge')
-      + " " + random_response('repeat')
-      + " " + inQuotes( Cards.getCurrentQuestion() );
   },
   new_card : function(){
     Cards.goToNextCard();
@@ -64,32 +56,12 @@ exports.Responses = {
       let scoreRes = ScoreKeeper.getCorrectCount(deckName);
       let totalRes = ScoreKeeper.getTotalCount(deckName);
 
-    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck";
-  },
-
-  getBackTo : function(app){
-    switch(app.getContext()){
-      case ASSESS_CONTEXT:
-          app.setContext(AGAIN_CONTEXT);
-          return "Would you like to go back to your last card?";
-      case AGAIN_CONTEXT:
-          app.setContext(AGAIN_CONTEXT);
-          return "Would you like to go back to your last card?";
-      case HINT_CONTEXT:
-          app.setContext(HINT_CONTEXT);
-          return "So did you want to hear that hint?";
-      case SWITCH_CONTEXT:
-          app.setContext(SWITCH_CONTEXT);
-          return "So what topic did you want to switch to?"
-    }
-    app.setContext(AGAIN_CONTEXT);
-    return "Would you like to go back to your last card?";
+    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck.";
   },
 
   skip : function(){
     var resp = random_response('acknowledge')
       + " " + random_response('skip')
-      + " " + inQuotes( Cards.getCurrentQuestion() ) + "."
       + " " + random_response('give_answer')
       + " " + inQuotes( Cards.getCurrentAnswer() ) + ".";
     Cards.goToNextCard();
@@ -112,6 +84,19 @@ exports.Responses = {
 
   exit : function(){
     return "Thanks for studying with us! Have a great day!";
+  },
+
+  repeat : function(){
+    return random_response('repeat')
+      + " " + inQuotes( Cards.getCurrentQuestion() ) + ".";
+  },
+
+  acknowledge : function(){
+    return random_response('acknowledge');
+  },
+
+  oops : function(){
+    return random_response('misunderstood');
   }
 
 }
@@ -143,14 +128,14 @@ var helpers = {
     'is a little off.'
   ],
   try_again: [
-    'Would you like to try again?',
-    'Will you give it another shot?',
-    'Want to give it another go?'
+    'Let\'s give it another go.',
+    'Go ahead and give it another shot.',
+    'Why don\'t you try again.'
   ],
   acknowledge: [
     'Okay!',
     'Alright then.',
-    'Swell!'
+    'Will do, champ.'
   ],
   give_answer: [
     'Here\'s the right answer: ',
@@ -172,9 +157,9 @@ var helpers = {
     'Hi there! Let\'s get learning!'
   ],
   skip: [
-    'We\'ll skip',
-    'We\'ll move past',
-    'We can skip'
+    'We\'ll skip that one.',
+    'We\'ll move past that one.',
+    'We can skip it.'
   ],
   hint: [
     'Here\'s a hint:',
@@ -183,15 +168,25 @@ var helpers = {
   re_ask: [
     'Any new ideas on the answer?',
     'What do you think the answer is?',
-    'Any ideas?',
-    'Do you have an answer?'
+    'Any ideas?'
   ],
   no_hint: [
     'Oh no! It looks like I can\'t help you with this one.',
     'Drat, I don\'t have a hint for this one.',
     'Darn! I want to help you, but I don\'t have a hint for this question.'
+  ],
+  options: [
+    'Don\'t forget, you can ask me for a hint, to skip a card, to repeat a card, or to say your score at any time.',
+    'Just let me know if you want me to give you a hint, to move on, to repeat the question, or to give you your score.',
+    'Whenever you need a hint, a repeat, a reminder of your score, or you want to move on, just tell me!',
+    'Feel free to ask me for a hint, to repeat the question, to skip a question, or to tell you your score whenever you like.'
+  ],
+  misunderstood: [
+    'Sorry, I didn\'t understand that.',
+    'Hmm, I\'m not understanding you.',
+    'Uh-oh! I don\'t know how to deal with what you said!',
+    'Oops! I don\'t know what to do now. My bad!'
   ]
-
 
 }
 
