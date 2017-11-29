@@ -47,7 +47,7 @@ exports.Responses = {
     return "What deck would you like to study? \'" + Cards.getDeckSuggestion();
   },
   list_deck : function(){
-    return "Ok! Here are the decks you can study: " + Cards.getDecks();
+    return random_response + "Here are the decks you can study: " + Cards.getDecks();
   },
   welcome : function(){
     return random_response('welcome');

@@ -2,6 +2,7 @@
 // pull in the card data from a specified JSON file
 var fs = require('fs');
 var decks = JSON.parse(fs.readFileSync('quiz.json', 'utf8'));
+var ScoreKeeper = require('./score_keeper.js');
 
 // initially, set to just before the first card
 var current = -1;
@@ -52,6 +53,7 @@ exports.setDeck = function(name){
   for (i = 0; i < (decks.length - 1); i++) {
     if ((name.toLowerCase()) == ((decks[i]).title.toLowerCase())) {
       num = i;
+      ScoreKeeper.setCurrentDeck(i);
       return true;
     }
   }
