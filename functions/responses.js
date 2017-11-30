@@ -36,10 +36,10 @@ exports.Responses = {
       + " " + inQuotes( Cards.getCurrentQuestion() );
   },
   select_deck : function(){
-    return "What deck would you like to study? \'" + Cards.getDeckSuggestion();
+    return "What deck would you like to study? " + Cards.getDeckSuggestion();
   },
   list_deck : function(){
-    return random_response('acknowledge') + " Here are the decks you can study: " + Cards.getDecks();
+    return random_response('acknowledge') + " You can switch to the following decks for study: " + Cards.getDecks();
   },
   welcome : function(){
     return random_response('welcome');

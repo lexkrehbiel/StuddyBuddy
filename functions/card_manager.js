@@ -20,12 +20,7 @@ exports.getCurrentAnswer = function(){
 
 // hint accessor
 exports.getCurrentHint = function(){
-  var hint = (decks[num]).cards[current].hint;
-  // ignore bad hints
-  if (hint.toLowerCase() == "no hint".toLowerCase()){
-    hint = false;
-  }
-  return hint;
+  return (decks[num]).cards[current].hint;
 }
 
 // title accessor
