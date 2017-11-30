@@ -19,7 +19,7 @@ var currentDeck = 0;
 
 var thresh_correct = 0;
 var thresh_streak = 0;
-var wrong_thresh = 2;
+var wrong_thresh = 4;
 
 var wrongStreak = 0;
 
@@ -111,7 +111,7 @@ exports.markSkip = function(){
 }
 
 
-exports.atHintThreshold = function(){
+exports.atRemindOptionsThreshold = function(){
 	if(wrongStreak >= wrong_thresh){
 		wrongStreak = 0;
 		return true;
@@ -121,7 +121,7 @@ exports.atHintThreshold = function(){
 
 exports.atRewardThreshold = function(){
 	//Eventually integrate with some deck percentage
-	
+
 	if( (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold)){
 		streak_threshold = generateThreshold(7, 13);
 		correct_threshold = generateThreshold(10, 16);
