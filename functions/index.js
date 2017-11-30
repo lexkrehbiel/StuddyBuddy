@@ -101,7 +101,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   // ask the user about a new card
   function getNewCard(app) {
     app.setContext(ASSESS_CONTEXT);
-    //app.ask( Resonses.new_card() );
+    app.ask( Resonses.new_card() );
   }
 
   // switch to user specified deck and give new card
