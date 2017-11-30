@@ -109,15 +109,17 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     let title = app.getArgument(TITLE_ARGUMENT);
     if( Cards.setDeck(title) ) {
       app.setContext(ASSESS_CONTEXT);
-      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ".\' " + Responses.new_card() );
+      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card() );
     }
     else {
-      app.ask( "Could not find deck " + title );
+      app.setContext(SELECT_CONTEXT);
+      app.ask( "Could not find deck " + title + ". Try again or ask for available decks.");
     }
   }
 
   // list all the deck names
   function listDeck(app) {
+    app.setContext(SELECT_CONTEXT);
     app.ask( Responses.list_deck() );
   }
 
