@@ -50,7 +50,7 @@ exports.getDecks = function(){
 
 // set the current deck
 exports.setDeck = function(name){
-  for (i = 0; i < (decks.length - 1); i++) {
+  for (i = 0; i < (decks.length); i++) {
     if ((name.toLowerCase()) == ((decks[i]).title.toLowerCase())) {
       num = i;
       ScoreKeeper.setCurrentDeck(i);
