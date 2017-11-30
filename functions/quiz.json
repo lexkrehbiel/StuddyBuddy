@@ -22,7 +22,7 @@
                {
                   "question": "What is the meaning of life?",
                   "hint": "Question popularized by Hitchhikers guide to the galaxy.",
-                  "answer": "Forty-Two"
+                  "answer": "Forty Two"
                },
                {
                   "question": "Bronze alloy is made of tin and what?",
@@ -59,44 +59,37 @@
             ]
       },
       {
-         "title": "Common Phrases",
+         "title": "Common Latin Phrases",
             "subject": "Latin",
             "sticker": "scroll",
             "cards": [
                {
                   "question": "Carpe Diem",
-                  "hint": "No Hint",
-                  "answer": "Seize the day."
+                  "answer": "Seize the day"
                },
                {
                   "question": "Magna Cum Laude",
-                  "hint": "No Hint",
-                  "answer": "With great Praise"
+                  "answer": "With great praise"
                },
                {
                   "question": "Caveat Emptor",
-                  "hint": "No Hint",
                   "answer": "Let the buyer beware"
                },
                {
                   "question": "Sic Semper Tyrannis",
-                  "hint": "No Hint",
                   "answer": "Thus always to tyrants"
                },
                {
                   "question": "Veni Vidi Vici",
-                  "hint": "No Hint",
                   "answer": "I came, I saw, I conquered"
                },
                {
                   "question": "Deus Ex Machine",
-                  "hint": "No Hint",
                   "answer": "God out of a machine"
                },
                {
                   "question": "E pluribus Unum",
-                  "hint": "No Hint",
-                  "answer": "OUt of many, one"
+                  "answer": "Out of many, one"
                }
             ]
       }

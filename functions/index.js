@@ -46,7 +46,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function assessResponse(user_raw){
 
     var user_ans = user_raw.toLowerCase();
-    var correct_ans = Cards.getCurrentAnswer().toLowerCase();
+    var correct_ans = Cards.getCurrentAnswer().toLowerCase().replace(/,/g, '');
 
     // if correct, alert user and move to a new card
     if ( user_ans == correct_ans ){
