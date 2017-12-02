@@ -33,6 +33,11 @@ exports.getCurrentSubject = function(){
   return (decks[num]).subject;
 }
 
+// sticker accessor
+exports.getCurrentSticker = function(){
+  return (decks[num]).sticker;
+}
+
 // increment the cursor to move to the next card
 exports.goToNextCard = function(){
   current = (current + 1) % (decks[num]).cards.length;
@@ -62,5 +67,9 @@ exports.setDeck = function(name){
 
 // return the name of suggested deck
 exports.getDeckSuggestion = function(){
-  return "Deck recommendation not yet implemented.";
+  let deckRecommend = "";
+  let num = Math.floor(Math.random() * (decks.length - 1));
+  deckRecommend += decks[num % decks.length].title;
+  deckRecommend += " and " + decks[(num + 1) % decks.length].title
+  return deckRecommend;
 }

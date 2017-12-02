@@ -135,12 +135,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
       
-      let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card();
+      let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". You will get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
 
       console.error("System response is " + sysResponse);
       
       app.setContext(ASSESS_CONTEXT);
+
       app.ask( sysResponse );
+
     }
     else {
       console.error("Invalid title, asking again, user said: " + app.getRawInput());
@@ -252,7 +254,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function fallback(app){
     console.error("Fallback, user said: " + app.getRawInput());
 
-    let sysResponse = Responses.misunderstood() + " " + Responses.give_options();
+    let sysResponse = Responses.oops() + " " + Responses.give_options();
 
     console.error("System response is " + sysResponse);
 
