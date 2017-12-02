@@ -7,7 +7,7 @@
                {
                   "question": "What is the melting point of water?",
                   "hint": "Celsius scale is defined by the melting and boiling point of water.",
-                  "answer": "Zero Degrees Celsius"
+                  "answer": "0 Degrees Celsius"
                },
                {
                   "question": "What is the most abundant element in the universe?",
@@ -22,7 +22,7 @@
                {
                   "question": "What is the meaning of life?",
                   "hint": "Question popularized by Hitchhikers guide to the galaxy.",
-                  "answer": "Forty Two"
+                  "answer": "42"
                },
                {
                   "question": "Bronze alloy is made of tin and what?",
@@ -32,7 +32,7 @@
                {
                   "question": "What is the number for neutral pH?",
                   "hint": "Neutral pH is lower than 9",
-                  "answer": "Seven"
+                  "answer": "7"
                }
          ]
       },
@@ -112,7 +112,7 @@
                  "answer": "Pineapple"
                },
                {
-                 "question": "These fruits is small and either purple or green.",
+                 "question": "These fruits are small and either purple or green.",
                  "hint": "this of wrath",
                  "answer": "Grapes"
                },
