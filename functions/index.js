@@ -163,7 +163,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function fallback(app){
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.misunderstood() + " " + Responses.give_options() );
+    app.ask( Responses.oops() + " " + Responses.give_options() );
   }
 
   let actionMap = new Map();
