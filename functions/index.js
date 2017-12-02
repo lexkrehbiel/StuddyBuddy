@@ -45,7 +45,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function assessResponse(user_raw){
 
-    console.error("Assess response called, raw input was \"" + user_raw + "\"");
+    console.error("Assess response called, raw input was \"" + user_raw + "\" , user said: " + app.getRawInput());
 
     var user_ans = user_raw.toLowerCase();
     var correct_ans = Cards.getCurrentAnswer().toLowerCase().replace(/,/g, '');
@@ -60,11 +60,19 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
         console.error("We are at the reward threshold");
-		    app.ask( Responses.good_job() + " " + Responses.getStats() + " " + Responses.new_card());
+
+        let sysResponse = Responses.good_job() + " " + Responses.getStats() + " " + Responses.new_card();
+
+        console.error("System response is " + sysResponse);
+		    app.ask( sysResponse );
       }
       else{
 
-        app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
+        let sysResponse = Responses.correct(user_raw) + " " + Responses.new_card();
+
+        console.error("System response is " + sysResponse);
+
+        app.ask( sysResponse );
       }
     }
 
@@ -86,6 +94,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
         resp += " "+Responses.give_options();
       }
 
+      console.error("System response is " + resp);
+
       // send the generated response
       app.ask( resp );
     }
@@ -104,9 +114,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // ask the user about a new card
   function getNewCard(app) {
-    console.error("Getting new card");
+    console.error("Getting new card, user said: " + app.getRawInput());
+
+    let sysResponse = Resonses.new_card();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Resonses.new_card() );
+    app.ask( sysResponse );
   }
 
   // switch to user specified deck and give new card
@@ -118,78 +133,131 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     console.error(app);
     if( Cards.setDeck(title) ) {
 
-      console.error("Valid title, switching to new deck");
+      console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
+      
+      let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card();
+
+      console.error("System response is " + sysResponse);
+      
       app.setContext(ASSESS_CONTEXT);
-      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card() );
+      app.ask( sysResponse );
     }
     else {
-      console.error("Invalid title, asking again");
+      console.error("Invalid title, asking again, user said: " + app.getRawInput());
+
+      let sysResponse = "Could not find deck " + title + ". Try again or ask for available decks.";
+
+      console.error("System response is " + sysResponse);
+
       app.setContext(SELECT_CONTEXT);
-      app.ask( "Could not find deck " + title + ". Try again or ask for available decks.");
+      app.ask( sysResponse );
     }
   }
 
   // list all the deck names
   function listDeck(app) {
-    console.error("Listing desks");
+    console.error("Listing desks, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.list_deck();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(SELECT_CONTEXT);
-    app.ask( Responses.list_deck() );
+    app.ask( sysResponse );
   }
 
   // user says he wants to switch
   function selectDeck(app) {
-    console.error("User attempting to select deck but did not provide title");
+    console.error("User attempting to select deck but did not provide title, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.select_deck();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(SELECT_CONTEXT);
-    app.ask( Responses.select_deck() );
+    app.ask( sysResponse );
   }
 
   // ask the user about a new card after welcoming him
   function firstNewCard(app) {
+
+    console.error("First New Card called, user said: " + app.getRawInput())
+
+    let sysResponse = Responses.welcome() +  " " + Responses.select_deck();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(SELECT_CONTEXT);
-    app.ask( Responses.welcome() +  " " + Responses.select_deck() );
+    app.ask( sysResponse );
   }
 
   function quitStudy(app) {
-    console.error("Quitting");
-    console.error(app);
-	  app.tell( Responses.exit() );
+    console.error("Quitting, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.exit();
+
+    console.error("System response is " + sysResponse);
+
+	  app.tell( sysResponse );
   }
 
   function getScore(app){
-    console.error("Request for score");
-    console.error(app);
-    app.setContext(ASSESS_CONTEXT);
+    console.error("Request for score, user said: " + app.getRawInput());
+    
     var subject = app.getArgument(SUBJECT_ARGUMENT);
-    app.ask(Responses.getStats(subject) + " " + Responses.repeat());
+    
+    let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
+
+    console.error("System response is " + sysResponse);
+
+    app.setContext(ASSESS_CONTEXT);
+    
+    app.ask( sysResponse );
   }
 
 
   function skip(app){
-    console.error("Request to skip");
-    console.error(app);
+    console.error("Request to skip, user said: " + app.getRawInput());
+    
+    let sysResponse = Responses.skip();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.skip() );
+    app.ask( sysResponse );
   }
 
   function giveHint(app){
-    console.error("Request a hint");
-    console.error(app);
+    console.error("Request a hint, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.hint();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.hint() );
+    app.ask( sysResponse );
   }
 
   function repeatQuestion(app){
-    console.error("Ask to repeat");
-    console.error(app);
+    console.error("Ask to repeat, user said: " + app.getRawInput());
+    
+    let sysResponse = Responses.acknowledge() + " " + Responses.repeat();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.acknowledge() + " " + Responses.repeat() );
+    app.ask( sysResponse );
   }
 
   function fallback(app){
-    console.error("Fallback");
-    console.error(app);
+    console.error("Fallback, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.misunderstood() + " " + Responses.give_options();
+
+    console.error("System response is " + sysResponse);
+
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.misunderstood() + " " + Responses.give_options() );
+    app.ask( sysResponse );
   }
 
   let actionMap = new Map();
