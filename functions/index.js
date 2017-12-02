@@ -115,7 +115,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     let title = app.getArgument(TITLE_ARGUMENT);
 
     console.error("Trying to switch decks with title argument \"" + title + "\"");
-
+    console.error(app);
     if( Cards.setDeck(title) ) {
 
       console.error("Valid title, switching to new deck");
@@ -151,11 +151,13 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function quitStudy(app) {
     console.error("Quitting");
+    console.error(app);
 	  app.tell( Responses.exit() );
   }
 
   function getScore(app){
     console.error("Request for score");
+    console.error(app);
     app.setContext(ASSESS_CONTEXT);
     var subject = app.getArgument(SUBJECT_ARGUMENT);
     app.ask(Responses.getStats(subject) + " " + Responses.repeat());
@@ -164,24 +166,28 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function skip(app){
     console.error("Request to skip");
+    console.error(app);
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.skip() );
   }
 
   function giveHint(app){
     console.error("Request a hint");
+    console.error(app);
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.hint() );
   }
 
   function repeatQuestion(app){
     console.error("Ask to repeat");
+    console.error(app);
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.acknowledge() + " " + Responses.repeat() );
   }
 
   function fallback(app){
     console.error("Fallback");
+    console.error(app);
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.misunderstood() + " " + Responses.give_options() );
   }
