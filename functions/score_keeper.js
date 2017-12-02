@@ -133,7 +133,7 @@ exports.atRewardThreshold = function(){
 	//Eventually integrate with some deck percentage
 
 	if( (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold)){
-		streak_threshold = generateThreshold(5, 9);
+		streak_threshold = generateThreshold(3, 4);
 		correct_threshold = generateThreshold(5, 5);
 
 		thresh_streak = 0;
