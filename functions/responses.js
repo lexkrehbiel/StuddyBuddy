@@ -36,7 +36,7 @@ exports.Responses = {
       + " " + inQuotes( Cards.getCurrentQuestion() );
   },
   select_deck : function(){
-    return "What deck would you like to study? " + Cards.getDeckSuggestion();
+    return "What deck would you like to study? I recommend studying " + Cards.getDeckSuggestion();
   },
   list_deck : function(){
     return random_response('acknowledge') + " The available decks are: " + Cards.getDecks() + ". What would you like to study?";
@@ -53,10 +53,11 @@ exports.Responses = {
 
   getStats : function(deckName){
 
-      let scoreRes = ScoreKeeper.getCorrectCount(deckName);
-      let totalRes = ScoreKeeper.getTotalCount(deckName);
+    let scoreRes = ScoreKeeper.getCorrectCount(deckName);
+    let totalRes = ScoreKeeper.getTotalCount(deckName);
+    let stickerName = Cards.getCurrentSticker(deckName);
 
-    return "You have answered " + scoreRes + " out of " + totalRes + " total questions in the " + deckName + " deck.";
+    return "You have earned " + scoreRes + " " + stickerName + " stickers.";
   },
 
   skip : function(){

@@ -109,7 +109,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     let title = app.getArgument(TITLE_ARGUMENT);
     if( Cards.setDeck(title) ) {
       app.setContext(ASSESS_CONTEXT);
-      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card() );
+      app.ask( "Switched to deck " + Cards.getCurrentTitle() + ". You will get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".");
     }
     else {
       app.setContext(SELECT_CONTEXT);
@@ -163,7 +163,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function fallback(app){
     app.setContext(ASSESS_CONTEXT);
-    app.ask( Responses.misunderstood() + " " + Responses.give_options() );
+    app.ask( Responses.oops() + " " + Responses.give_options() );
   }
 
   let actionMap = new Map();
