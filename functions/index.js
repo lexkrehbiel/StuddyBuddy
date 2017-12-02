@@ -45,6 +45,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function assessResponse(user_raw){
 
+    console.log("Assess response called, raw input was \"" + user_raw + "\"");
+
     var user_ans = user_raw.toLowerCase();
     var correct_ans = Cards.getCurrentAnswer().toLowerCase().replace(/,/g, '');
 
@@ -53,13 +55,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       app.setContext(ASSESS_CONTEXT);
       ScoreKeeper.markCorrect();
 
+      console.log("User was correct");
 
 		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
+        console.log("We are at the reward threshold");
 		    app.ask( Responses.good_job() + " " + Responses.getStats() + " " + Responses.new_card());
       }
       else{
-
 
         app.ask( Responses.correct(user_raw) + " " + Responses.new_card() );
       }
@@ -67,7 +70,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if wrong, alert user and tell him to try again
     else {
-
+      console.log("User was wrong, correct answer was \"" + Cards.getCurrentAnswer + "\"");
       // note that the answer was wrong
       ScoreKeeper.markWrong();
 
@@ -79,6 +82,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       // if we should remind the user of his options, do that as well
       if(ScoreKeeper.atRemindOptionsThreshold()){
+        console.log("We are at the reminder threshold");
         resp += " "+Responses.give_options();
       }
 
@@ -100,18 +104,26 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // ask the user about a new card
   function getNewCard(app) {
+    console.log("Getting new card");
     app.setContext(ASSESS_CONTEXT);
     app.ask( Resonses.new_card() );
   }
 
   // switch to user specified deck and give new card
   function switchDeck(app) {
+
     let title = app.getArgument(TITLE_ARGUMENT);
+
+    console.log("Trying to switch decks with title argument \"" + title + "\"");
+
     if( Cards.setDeck(title) ) {
+
+      console.log("Valid title, switching to new deck");
       app.setContext(ASSESS_CONTEXT);
       app.ask( "Switched to deck " + Cards.getCurrentTitle() + ". " + Responses.new_card() );
     }
     else {
+      console.log("Invalid title, asking again");
       app.setContext(SELECT_CONTEXT);
       app.ask( "Could not find deck " + title + ". Try again or ask for available decks.");
     }
@@ -119,12 +131,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   // list all the deck names
   function listDeck(app) {
+    console.log("Listing desks");
     app.setContext(SELECT_CONTEXT);
     app.ask( Responses.list_deck() );
   }
 
   // user says he wants to switch
   function selectDeck(app) {
+    console.log("User attempting to select deck but did not provide title");
     app.setContext(SELECT_CONTEXT);
     app.ask( Responses.select_deck() );
   }
@@ -136,10 +150,12 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   function quitStudy(app) {
+    console.log("Quitting");
 	  app.tell( Responses.exit() );
   }
 
   function getScore(app){
+    console.log("Request for score");
     app.setContext(ASSESS_CONTEXT);
     var subject = app.getArgument(SUBJECT_ARGUMENT);
     app.ask(Responses.getStats(subject) + " " + Responses.repeat());
@@ -147,21 +163,25 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
 
   function skip(app){
+    console.log("Request to skip");
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.skip() );
   }
 
   function giveHint(app){
+    console.log("Request a hint");
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.hint() );
   }
 
   function repeatQuestion(app){
+    console.log("Ask to repeat");
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.acknowledge() + " " + Responses.repeat() );
   }
 
   function fallback(app){
+    console.log("Fallback");
     app.setContext(ASSESS_CONTEXT);
     app.ask( Responses.misunderstood() + " " + Responses.give_options() );
   }
