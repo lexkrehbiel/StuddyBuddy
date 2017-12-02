@@ -78,7 +78,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if wrong, alert user and tell him to try again
     else {
-      console.error("User was wrong, correct answer was \"" + Cards.getCurrentAnswer + "\"");
+      console.error("User was wrong, correct answer was \"" + Cards.getCurrentAnswer() + "\"");
       // note that the answer was wrong
       ScoreKeeper.markWrong();
 
