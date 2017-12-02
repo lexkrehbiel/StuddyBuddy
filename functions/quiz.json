@@ -1,4 +1,4 @@
-[ 
+[
       {
          "title": "Random Trivia",
          "subject": "Science",
@@ -88,6 +88,43 @@
                {
                   "question": "E pluribus Unum",
                   "answer": "Out of many, one"
+               }
+            ]
+      },
+      {
+         "title": "Fruits",
+         "subject": "Food",
+         "sticker": "apple",
+         "cards": [
+               {
+                  "question": "One of these daily keeps the doctor away.",
+                  "hint": "In pies, it's highly American",
+                  "answer": "apple"
+               },
+               {
+                  "question": "Small, green on the inside, and fuzzy on the outside fruit.",
+                  "hint": "It's also the name of an animal.",
+                  "answer": "Kiwi"
+               },
+               {
+                 "question": "This fruit is yellow on the inside and spikey on the outside.",
+                 "hint": "Spongebob lives in one",
+                 "answer": "Pineapple"
+               },
+               {
+                 "question": "These fruits is small and either purple or green.",
+                 "hint": "___ of wrath",
+                 "answer": "Grapes"
+               },
+               {
+                 "question": "This fruit is small and red with little seeds.",
+                 "hint": "___ shortcake is a child's doll",
+                 "answer": "Strawberry"
+               },
+               {
+                 "question": "This fruit is yellow and sour.",
+                 "hint": "Would you like a wedge with your water?",
+                 "answer": "Lemon"
                }
             ]
       }
