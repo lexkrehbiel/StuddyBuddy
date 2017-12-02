@@ -78,6 +78,16 @@ exports.getTotalCount = function(deckName){
 	return deck.total;
 }
 
+exports.getStickerName = function(deckName){
+   let deck = findDeck(deckName);
+
+	if(deck == null){
+		return scoreDecks[currentDeck].sticker;
+	}
+
+	return deck.sticker;
+}   
+
 exports.getSkipCount = function(deckName){
 	let deck = findDeck(deckName);
 
@@ -123,8 +133,8 @@ exports.atRewardThreshold = function(){
 	//Eventually integrate with some deck percentage
 
 	if( (thresh_correct > correct_threshold) || (thresh_streak > streak_threshold)){
-		streak_threshold = generateThreshold(7, 13);
-		correct_threshold = generateThreshold(10, 16);
+		streak_threshold = generateThreshold(5, 9);
+		correct_threshold = generateThreshold(5, 5);
 
 		thresh_streak = 0;
 		thresh_correct = 0;
