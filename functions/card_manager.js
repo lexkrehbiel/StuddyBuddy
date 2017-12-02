@@ -74,7 +74,7 @@ exports.setDeck = function(name){
 // return the name of suggested deck
 exports.getDeckSuggestion = function(){
   let deckRecommend = "";
-  let num = Math.floor(Math.random());
+  let num = Math.floor(Math.random() * (decks.length - 1));
   deckRecommend += decks[num % decks.length].title;
   deckRecommend += " and " + decks[(num + 1) % decks.length].title
   return deckRecommend;

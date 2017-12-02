@@ -27,8 +27,8 @@ var generateThreshold = function(start, end){
 	return Math.floor(Math.random() * (end-start)) + start;
 }
 
-var streak_threshold = generateThreshold(7, 13);
-var correct_threshold = generateThreshold(10, 16);
+var streak_threshold = generateThreshold(3, 4);
+var correct_threshold = generateThreshold(5, 5);
 
 
 var findDeck = function(deckName){
