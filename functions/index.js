@@ -32,10 +32,20 @@ const SWITCH_CONTEXT = "switch";
 const ANSWER_ARGUMENT = 'answer';
 const SUBJECT_ARGUMENT = 'subject';
 const TITLE_ARGUMENT = 'title';
+const STICKER_ARGUMENT = 'sticker'
 
 var first_question = true;
 
 var current = -1;
+
+function evaluate(correct_ans, user_ans){
+  for(let i = 0; i < correct_ans.length; i++){
+    if(correct_ans[i] == user_ans){
+      return true;
+    }
+  }
+  return false;
+}
 
 // attach all the functions to studdyBuddy!
 exports.studdyBuddy = functions.https.onRequest((request, response) => {
@@ -48,10 +58,14 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     console.error("Assess response called, raw input was \"" + user_raw + "\" , user said: " + app.getRawInput());
 
     var user_ans = user_raw.toLowerCase();
-    var correct_ans = Cards.getCurrentAnswer().toLowerCase().replace(/,/g, '');
+    var correct_ans = Cards.getCurrentAnswer();
+
+    for(let i = 0; i < correct_ans.length; i++){
+      correct_ans[i] = correct_ans[i].toLowerCase().replace(/,/g, '');
+    }
 
     // if correct, alert user and move to a new card
-    if ( user_ans == correct_ans ){
+    if ( evaluate(correct_ans, user_ans) ){
       app.setContext(ASSESS_CONTEXT);
       ScoreKeeper.markCorrect();
 
@@ -78,7 +92,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     // if wrong, alert user and tell him to try again
     else {
-      console.error("User was wrong, correct answer was \"" + Cards.getCurrentAnswer() + "\"");
+      console.error("User was wrong, correct answer was \"" + Cards.getCurrentAnswer()[0] + "\"");
       // note that the answer was wrong
       ScoreKeeper.markWrong();
 
@@ -130,7 +144,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     let title = app.getArgument(TITLE_ARGUMENT);
 
     console.error("Trying to switch decks with title argument \"" + title + "\"");
-    console.error(app);
+    
     if( Cards.setDeck(title) ) {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
@@ -206,7 +220,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function getScore(app){
     console.error("Request for score, user said: " + app.getRawInput());
     
-    var subject = app.getArgument(SUBJECT_ARGUMENT);
+    var subject = app.getArgument(STICKER_ARGUMENT);
     
     let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
 
