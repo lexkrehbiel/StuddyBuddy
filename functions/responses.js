@@ -6,6 +6,9 @@ function random(ceiling){
   return Math.floor(Math.random()*ceiling);
 }
 
+var first_question = true;
+
+
 // canned response functions, self-explanatory by their titles
 // later, we can replace these with arrays so it's less repetitive
 exports.Responses = {
@@ -23,6 +26,10 @@ exports.Responses = {
   give_options : function (){
     return random_response('options');
   },
+  give_options_asked : function (){
+    return random_response('acknowledge')
+      + " " + random_response('options_2');
+  },
   incorrect_give_answer : function (ans){
     return random_response('acknowledge')
       + " " + random_response('give_answer')
@@ -31,8 +38,14 @@ exports.Responses = {
   },
   new_card : function(){
     Cards.goToNextCard();
-    return random_response('ask_answer')
+    var response = "";
+    if( first_question ){
+      response = random_response('options') + " ";
+      first_question = false;
+    }
+    response += random_response('ask_answer')
       + " " + inQuotes( Cards.getCurrentQuestion() );
+    return response;
   },
   select_deck : function(){
     return "What deck would you like to study? I recommend studying " + Cards.getDeckSuggestion();
@@ -188,6 +201,10 @@ var helpers = {
     'Just let me know if you want me to give you a hint, to move on, to repeat the question, or to give you your score.',
     'Whenever you need a hint, a repeat, a reminder of your score, or you want to move on, just tell me!',
     'Feel free to ask me for a hint, to repeat the question, to skip a question, or to tell you your score whenever you like.'
+  ],
+  options_2: [
+    'I can give you a hint, skip a card, repeat a card, or say your score at any time. Just ask! What would you like to do now?',
+    'Some things I can do for you are give a hint, skip a card, repeat a card, and give you your score. Just let me know! What would you like to do now?'
   ],
   misunderstood: [
     'Sorry, I didn\'t understand that.',
