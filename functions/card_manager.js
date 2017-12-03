@@ -25,7 +25,7 @@ exports.getCurrentHint = function(){
 
 // title accessor
 exports.getCurrentTitle = function(){
-  return (decks[num]).title;
+  return (decks[num]).title[0];
 }
 
 // subject accessor
@@ -47,16 +47,27 @@ exports.goToNextCard = function(){
 exports.getDecks = function(){
   var names = "";
   for (i = 0; i < (decks.length - 1); i++) {
-    names += (decks[i]).title + ", ";
+    names += (decks[i]).title[0] + ", ";
   }
-  names += (" and " + (decks[decks.length - 1]).title + ".");
+  names += (" and " + (decks[decks.length - 1]).title[0] + ".");
   return names;
+}
+
+function evaluate(correct_deck, user_deck){
+	user_deck = user_deck.toLowerCase();
+
+  for(let i = 0; i < correct_deck.length; i++){
+    if(correct_deck[i].toLowerCase() == user_deck){
+      return true;
+    }
+  }
+  return false;
 }
 
 // set the current deck
 exports.setDeck = function(name){
   for (i = 0; i < (decks.length); i++) {
-    if ((name.toLowerCase()) == ((decks[i]).title.toLowerCase())) {
+    if (evaluate(decks[i].title,name)) {
       num = i;
       ScoreKeeper.setCurrentDeck(i);
       return true;
@@ -69,7 +80,7 @@ exports.setDeck = function(name){
 exports.getDeckSuggestion = function(){
   let deckRecommend = "";
   let num = Math.floor(Math.random() * (decks.length - 1));
-  deckRecommend += decks[num % decks.length].title;
-  deckRecommend += " and " + decks[(num + 1) % decks.length].title
+  deckRecommend += decks[num % decks.length].title[0];
+  deckRecommend += " and " + decks[(num + 1) % decks.length].title[0]
   return deckRecommend;
 }

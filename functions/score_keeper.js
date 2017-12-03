@@ -30,6 +30,16 @@ var generateThreshold = function(start, end){
 var streak_threshold = generateThreshold(3, 4);
 var correct_threshold = generateThreshold(5, 5);
 
+function evaluate(correct_deck, user_deck){
+	user_deck = user_deck.toLowerCase();
+
+  for(let i = 0; i < correct_ans.length; i++){
+    if(correct_deck[i].toLowerCase() == user_deck){
+      return true;
+    }
+  }
+  return false;
+}
 
 var findDeck = function(deckName){
 	if(deckName == null){
@@ -37,7 +47,7 @@ var findDeck = function(deckName){
 	}
 
 	for(var i = 0; i < scoreDecks.length; i++){
-		if(scoreDecks[i].title == deckName){
+		if(evaluate(scoreDecks[i].title, deckName)){
 			return scoreDecks[i];
 		}
 	}
