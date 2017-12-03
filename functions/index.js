@@ -17,6 +17,7 @@ const SWITCH_DECK_ACTION = 'switch_deck';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
 const FALLBACK_ACTION = 'fallback';
+const OPTIONS_ACTION = 'give_options'
 
 const HINT_ACTION = 'hint';
 const SKIP_ACTION = 'skip';
@@ -134,11 +135,11 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     if( Cards.setDeck(title) ) {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
-      
+
       let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". You will get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
 
       console.error("System response is " + sysResponse);
-      
+
       app.setContext(ASSESS_CONTEXT);
 
       app.ask( sysResponse );
@@ -205,22 +206,22 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     console.error("Request for score, user said: " + app.getRawInput());
-    
+
     var subject = app.getArgument(SUBJECT_ARGUMENT);
-    
+
     let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
 
     console.error("System response is " + sysResponse);
 
     app.setContext(ASSESS_CONTEXT);
-    
+
     app.ask( sysResponse );
   }
 
 
   function skip(app){
     console.error("Request to skip, user said: " + app.getRawInput());
-    
+
     let sysResponse = Responses.skip();
 
     console.error("System response is " + sysResponse);
@@ -242,7 +243,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function repeatQuestion(app){
     console.error("Ask to repeat, user said: " + app.getRawInput());
-    
+
     let sysResponse = Responses.acknowledge() + " " + Responses.repeat();
 
     console.error("System response is " + sysResponse);
@@ -262,6 +263,17 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.ask( sysResponse );
   }
 
+  function giveOptions(app){
+    console.error("Options, user said: " + app.getRawInput());
+
+    let sysResponse = Responses.give_options_asked();
+
+    console.error("System response is " + sysResponse);
+
+    app.setContext(ASSESS_CONTEXT);
+    app.ask( sysResponse );
+  }
+
   let actionMap = new Map();
   actionMap.set(ASSESS_ACTION, doAssessResponse);
   actionMap.set(SKIP_ACTION, skip);
@@ -274,7 +286,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
   actionMap.set(REPEAT_ACTION, repeatQuestion);
-  actionMap.set(FALLBACK_ACTION, fallback)
+  actionMap.set(FALLBACK_ACTION, fallback);
+  actionMap.set(OPTIONS_ACTION, giveOptions);
 
   app.handleRequest(actionMap);
 });
