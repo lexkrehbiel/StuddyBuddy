@@ -8,6 +8,29 @@ var ScoreKeeper = require('./score_keeper.js');
 var current = -1;
 var num = 0;
 
+exports.getStickerName = function(deckName){
+
+	if(deckName == null){
+		return getCurrentSticker();
+	}
+
+	for(let i = 0; i < decks.length; i++){
+		if(decks[i].sticker.toLowerCase() === deckName.toLowerCase()){
+			return decks[i].sticker;
+		}
+	}
+
+	for(let i = 0; i < decks.length; i++){
+		for(let j = 0; j < decks[i].title.length; j++){
+			if(decks[i].title[j].toLowerCase() === deckName.toLowerCase()){
+				return decks[i].sticker;
+			}
+		}
+	}
+
+	return null;
+}
+
 // question accessor
 exports.getCurrentQuestion = function(){
   return (decks[num]).cards[current].question;

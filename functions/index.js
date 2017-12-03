@@ -32,6 +32,7 @@ const SWITCH_CONTEXT = "switch";
 const ANSWER_ARGUMENT = 'answer';
 const SUBJECT_ARGUMENT = 'subject';
 const TITLE_ARGUMENT = 'title';
+const STICKER_ARGUMENT = 'sticker'
 
 var first_question = true;
 
@@ -219,7 +220,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function getScore(app){
     console.error("Request for score, user said: " + app.getRawInput());
     
-    var subject = app.getArgument(SUBJECT_ARGUMENT);
+    var subject = app.getArgument(STICKER_ARGUMENT);
     
     let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
 

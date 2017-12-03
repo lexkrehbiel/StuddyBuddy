@@ -6,7 +6,6 @@ function random(ceiling){
   return Math.floor(Math.random()*ceiling);
 }
 
-
 // canned response functions, self-explanatory by their titles
 // later, we can replace these with arrays so it's less repetitive
 exports.Responses = {
@@ -51,13 +50,21 @@ exports.Responses = {
     return random_response('encouragement');
   },
 
+
+
   getStats : function(deckName){
 
     let scoreRes = ScoreKeeper.getCorrectCount(deckName);
     let totalRes = ScoreKeeper.getTotalCount(deckName);
-    let stickerName = Cards.getCurrentSticker(deckName);
+    let stickerName = Cards.getStickerName(deckName);
+    let err = ""
 
-    return "You have earned " + scoreRes + " " + stickerName + " stickers.";
+    if(stickerName == null){
+      stickerName = Cards.getCurrentSticker();
+      err = "I'm not sure I give out those kinds of stickers, but ";
+    }
+
+    return err + "You have earned " + scoreRes + " " + stickerName + " stickers.";
   },
 
   skip : function(){
