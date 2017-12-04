@@ -91,7 +91,7 @@ exports.Responses = {
     var resp = random_response('acknowledge')
       + " " + random_response('skip')
       + " " + random_response('give_answer')
-      + " " + inQuotes( Cards.getCurrentAnswer() ) + ".";
+      + " " + inQuotes( Cards.getCurrentAnswer()[0] ) + ".";
     Cards.goToNextCard();
     return resp
       + switchDeck + random_response('ask_answer')
