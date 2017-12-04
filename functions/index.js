@@ -58,7 +58,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
     console.error("Assess response called, raw input was \"" + user_raw + "\" , user said: " + app.getRawInput());
 
-    var user_ans = user_raw.toLowerCase();
+    var user_ans = user_raw.toLowerCase().replace(/,/g, '');
     var correct_ans = Cards.getCurrentAnswer();
 
     for(let i = 0; i < correct_ans.length; i++){
