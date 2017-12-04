@@ -170,7 +170,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     else {
       console.error("Invalid title, asking again, user said: " + app.getRawInput());
 
-      let sysResponse = "Could not find deck " + title + ". Try again or ask for available decks.";
+      let sysResponse = "Hmm... I couldn't not find deck " + title + ". Please try again or ask me for what decks there are.";
 
       console.error("System response is " + sysResponse);
 
