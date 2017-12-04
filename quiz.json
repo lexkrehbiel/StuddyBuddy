@@ -1,99 +1,167 @@
-[ 
+[
       {
-         "title": "Random Trivia",
+         "title": ["General Science", "Science", "Basic Science"],
          "subject": "Science",
+         "sticker": "bunsen burner",
          "cards": [
                {
                   "question": "What is the melting point of water?",
                   "hint": "Celsius scale is defined by the melting and boiling point of water.",
-                  "answer": "Zero Degrees Celsius"
+                  "answer": ["0 Degrees Celsius", "0 Celsius", "32 Degrees Fahrenheit", "32 Fahrenheit"]
                },
                {
                   "question": "What is the most abundant element in the universe?",
                   "hint": "Part of water molecule",
-                  "answer": "Hydrogen"
+                  "answer": ["Hydrogen"]
                },
                {
                   "question": "Who invented the theory of relativity?",
                   "hint": "E=mc^2",
-                  "answer": "Albert Einstein"
+                  "answer": ["Albert Einstein", "Einstein"]
                },
                {
                   "question": "What is the meaning of life?",
                   "hint": "Question popularized by Hitchhikers guide to the galaxy.",
-                  "answer": "Forty-Two"
+                  "answer": ["42", "memes", "death"]
                },
                {
                   "question": "Bronze alloy is made of tin and what?",
                   "hint": "Highly conductive material",
-                  "answer": "Copper"
+                  "answer": ["Copper"]
                },
                {
                   "question": "What is the number for neutral pH?",
                   "hint": "Neutral pH is lower than 9",
-                  "answer": "Seven"
+                  "answer": ["7"]
                }
          ]
       },
       {
-         "title": "Vocabulary One",
+         "title": ["Movie Trivia", "Movies", "Trivia", "Film Trivia", "Film", "Movie"],
+         "subject": "Science",
+         "sticker": "camera",
+         "cards": [
+               {
+                  "question": "Who directed the 1994 crime thriller, Pulp Fiction?",
+                  "hint": "He also directed Kill Bill, and the recent Hateful 8, and is known for over the top, almost surreal, action.",
+                  "answer": ["Quentin Tarantino", "Tarantino"]
+               },
+               {
+                  "question": "What series gained a cult following in the 1990s, known for lampooning little known (often poorly made) \"B-Movies\"?",
+                  "hint": "Known to many by the acronym MST3K and has been recently revived.",
+                  "answer": ["Mystery Science Theater 3000", "Mystery Science Theater"]
+               },
+               {
+                  "question": "Who starred in the 1994 hit \"Forrest Gump\"?",
+                  "hint": "This actor was also known for playing Woody in Toy Story, and talking to a volleyball named Wilson.",
+                  "answer": ["Tom Hanks", "Hanks"]
+               },
+               {
+                  "question": "What movie, adapted from a book, popularized the thought that the meaning of life is the number 42?",
+                  "hint": "The movie also featured terrible alien poetry and a depressed robot",
+                  "answer": ["The Hitchhiker's Guide to the Galaxy","Hitchhiker's Guide", "Hitchhiker's Guide to the Galaxy"]
+               },
+               {
+                  "question": "In the Wizard of Oz, Dorothy was accompanied by a lion, a scarecrow, and who else?",
+                  "hint": "His body is made of highly conductive material",
+                  "answer": ["The Tinman", "A Tinman", "Tinman", "Tin Man", "The tin man", "A tin man"]
+               },
+               {
+                  "question": "What is the highest grossing movie of all time? (Not adjusted for inflation)",
+                  "hint": "This movie released in 2009 and many see it as a retelling of Pocahontas",
+                  "answer": ["Avatar", "James Cameron's Avatar"]
+               }
+         ]
+      },
+      {
+         "title": ["Advanced Vocabulary", "Vocabulary", "Vocab"],
          "subject": "English",
+         "sticker": "bookworm",
          "cards": [
                {
                   "question": "A sentimental longing or wistful affection for the past",
-                  "hint": "No Hint",
-                  "answer": "Nostalgia"
+                  "answer": ["Nostalgia"]
                },
                {
                   "question": "Of such excellence, grandeur, or beauty as to inspire great admiration or awe.",
                   "hint": "Part of this word is as sour as a lemon.",
-                  "answer": "Sublime"
+                  "answer": ["Sublime"]
                },
                {
                   "question": "A system in which groups are ranked according to status",
-                  "hint": "No Hint",
-                  "answer": "Hierarchy"
+                  "answer": ["Hierarchy"]
                }
             ]
       },
       {
-         "title": "Common Phrases",
+         "title": ["Common Latin Phrases", "Common Latin", "Latin", "Latin Phrases", "Latin Phrases"],
             "subject": "Latin",
+            "sticker": "scroll",
             "cards": [
                {
                   "question": "Carpe Diem",
-                  "hint": "No Hint",
-                  "answer": "Seize the day."
+                  "answer": ["Seize the day"]
                },
                {
                   "question": "Magna Cum Laude",
-                  "hint": "No Hint",
-                  "answer": "With great Praise"
+                  "answer": ["With great praise"]
                },
                {
                   "question": "Caveat Emptor",
-                  "hint": "No Hint",
-                  "answer": "Let the buyer beware"
+                  "answer": ["Let the buyer beware"]
                },
                {
                   "question": "Sic Semper Tyrannis",
-                  "hint": "No Hint",
-                  "answer": "Thus always to tyrants"
+                  "answer": ["Thus always to tyrants"]
                },
                {
                   "question": "Veni Vidi Vici",
-                  "hint": "No Hint",
-                  "answer": "I came, I saw, I conquered"
+                  "answer": ["I came, I saw, I conquered"]
                },
                {
                   "question": "Deus Ex Machine",
-                  "hint": "No Hint",
-                  "answer": "God out of a machine"
+                  "answer": ["God out of a machine"]
                },
                {
                   "question": "E pluribus Unum",
-                  "hint": "No Hint",
-                  "answer": "OUt of many, one"
+                  "answer": ["Out of many, one"]
+               }
+            ]
+      },
+      {
+         "title": ["Fruits", "Fruit"],
+         "subject": "Food",
+         "sticker": "apple",
+         "cards": [
+               {
+                  "question": "One of these daily keeps the doctor away.",
+                  "hint": "In pies, it's highly American",
+                  "answer": ["Apple", "Apples"]
+               },
+               {
+                  "question": "Small, green on the inside, and fuzzy on the outside fruit.",
+                  "hint": "It's also the name of an animal.",
+                  "answer": ["Kiwi", "Kiwis"]
+               },
+               {
+                 "question": "This fruit is yellow on the inside and spikey on the outside.",
+                 "hint": "Spongebob lives in one",
+                 "answer": ["Pineapple", "Pineapples"]
+               },
+               {
+                 "question": "These fruits are small and either purple or green.",
+                 "hint": "this of wrath",
+                 "answer": ["Grapes", "Grape"]
+               },
+               {
+                 "question": "This fruit is small and red with little seeds.",
+                 "hint": "this shortcake is the name of a child's doll",
+                 "answer": ["Strawberry", "Strawberries"]
+               },
+               {
+                 "question": "This fruit is yellow and sour.",
+                 "hint": "Would you like a wedge with your water?",
+                 "answer": ["Lemon", "Lemons"]
                }
             ]
       }

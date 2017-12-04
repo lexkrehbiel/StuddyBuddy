@@ -33,12 +33,12 @@ exports.getStickerName = function(deckName){
 
 // question accessor
 exports.getCurrentQuestion = function(){
-  return (decks[num]).cards[current].question;
+  return (decks[num]).cards[current%decks[num].cards.length].question;
 }
 
 // answer accessor
 exports.getCurrentAnswer = function(){
-  return (decks[num]).cards[current].answer;
+  return (decks[num]).cards[current%decks[num].cards.length].answer;
 }
 
 // hint accessor

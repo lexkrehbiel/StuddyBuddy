@@ -79,14 +79,21 @@ exports.Responses = {
     return err + "You have earned " + scoreRes + " " + stickerName + " stickers.";
   },
 
-  skip : function(){
+  skip : function(switchD){
+
+    let switchDeck = " "
+
+      if(switchD){
+        switchDeck = " It looks like we reached the end of the deck, just let me know if you want to switch to another one, for now we'll go through again! "
+      }
+
     var resp = random_response('acknowledge')
       + " " + random_response('skip')
       + " " + random_response('give_answer')
       + " " + inQuotes( Cards.getCurrentAnswer()[0] ) + ".";
     Cards.goToNextCard();
     return resp
-      + " " + random_response('ask_answer')
+      + switchDeck + random_response('ask_answer')
       + " " + inQuotes( Cards.getCurrentQuestion() );
   },
 

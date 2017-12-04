@@ -22,7 +22,7 @@
                {
                   "question": "What is the meaning of life?",
                   "hint": "Question popularized by Hitchhikers guide to the galaxy.",
-                  "answer": ["42"]
+                  "answer": ["42", "memes", "death"]
                },
                {
                   "question": "Bronze alloy is made of tin and what?",
@@ -59,12 +59,12 @@
                {
                   "question": "What movie, adapted from a book, popularized the thought that the meaning of life is the number 42?",
                   "hint": "The movie also featured terrible alien poetry and a depressed robot",
-                  "answer": ["The Hitchhikers Guide to the Galaxy","Hitchhikers Guide", "Hitchhikers Guide to the Galaxy"]
+                  "answer": ["The Hitchhiker's Guide to the Galaxy","Hitchhiker's Guide", "Hitchhiker's Guide to the Galaxy"]
                },
                {
                   "question": "In the Wizard of Oz, Dorothy was accompanied by a lion, a scarecrow, and who else?",
                   "hint": "His body is made of highly conductive material",
-                  "answer": ["The Tinman", "A Tinman", "Tinman"]
+                  "answer": ["The Tinman", "A Tinman", "Tinman", "Tin Man", "The tin man", "A tin man"]
                },
                {
                   "question": "What is the highest grossing movie of all time? (Not adjusted for inflation)",
@@ -94,7 +94,7 @@
             ]
       },
       {
-         "title": ["Common Latin Phrases", "Latin", "Latin Phrases", "Latin Phrases"],
+         "title": ["Common Latin Phrases", "Common Latin", "Latin", "Latin Phrases", "Latin Phrases"],
             "subject": "Latin",
             "sticker": "scroll",
             "cards": [
