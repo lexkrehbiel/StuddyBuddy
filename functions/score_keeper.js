@@ -156,6 +156,13 @@ exports.atRewardThreshold = function(){
 	return false;
 }
 
+exports.atSwitchThreshold = function(){
+	if(scoreDecks[currentDeck].total%scoreDecks[currentDeck].totalCards == 0){
+		return true;
+	}
+	return false;
+}
+
 exports.debug = function(){
 	return scoreDecks[currentDeck];
 }

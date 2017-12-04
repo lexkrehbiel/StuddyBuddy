@@ -72,18 +72,26 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       console.error("User was correct");
 
+      let switchDeck = " "
+
+      if(ScoreKeeper.atSwitchThreshold()){
+        switchDeck = " It looks like we reached the end of the deck, just let me know if you want to switch to another one, for now we'll go through again! "
+      }
+
 		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
         console.error("We are at the reward threshold");
 
-        let sysResponse = Responses.good_job() + " " + Responses.getStats() + " " + Responses.new_card();
+        let sysResponse = Responses.good_job() + " " + Responses.getStats() + switchDeck + Responses.new_card();
 
         console.error("System response is " + sysResponse);
 		    app.ask( sysResponse );
       }
       else{
 
-        let sysResponse = Responses.correct(user_raw) + " " + Responses.new_card();
+        let sysResponse = Responses.correct(user_raw) + switchDeck + Responses.new_card();
+
+
 
         console.error("System response is " + sysResponse);
 
@@ -236,7 +244,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   function skip(app){
     console.error("Request to skip, user said: " + app.getRawInput());
 
-    let sysResponse = Responses.skip();
+    let sysResponse = Responses.skip(ScoreKeeper.atSwitchThreshold());
 
     console.error("System response is " + sysResponse);
 
