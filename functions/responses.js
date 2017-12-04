@@ -32,7 +32,7 @@ exports.Responses = {
   incorrect_give_answer : function (ans){
     return random_response('acknowledge')
       + " " + random_response('give_answer')
-      + " " + inQuotes( Cards.getCurrentAnswer() ) + "."
+      + " " + inQuotes( Cards.getCurrentAnswer()[0] ) + "."
       + " " + random_response('forward');
   },
   new_card : function(){
@@ -83,7 +83,7 @@ exports.Responses = {
     var resp = random_response('acknowledge')
       + " " + random_response('skip')
       + " " + random_response('give_answer')
-      + " " + inQuotes( Cards.getCurrentAnswer() ) + ".";
+      + " " + inQuotes( Cards.getCurrentAnswer()[0] ) + ".";
     Cards.goToNextCard();
     return resp
       + " " + random_response('ask_answer')
@@ -147,7 +147,7 @@ var helpers = {
   correct: [
     'is just right.',
     'is correct!',
-    'is exactly right',
+    'is exactly right.',
     'is spot on!'
   ],
   forward: [
