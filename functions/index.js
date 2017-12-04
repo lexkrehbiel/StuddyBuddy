@@ -157,7 +157,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
 
-      let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". You'll get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
+      let sysResponse = Responses.acknowledge() + " Switched to deck " + Cards.getCurrentTitle() + ". You will get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
 
       console.error("System response is " + sysResponse);
 
