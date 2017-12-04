@@ -27,20 +27,19 @@ exports.Responses = {
     return random_response('options');
   },
   give_options_asked : function (){
-    return random_response('acknowledge')
-      + " " + random_response('options_2');
+    return random_response('options_2');
   },
   incorrect_give_answer : function (ans){
     return random_response('acknowledge')
       + " " + random_response('give_answer')
-      + " " + inQuotes( Cards.getCurrentAnswer() ) + "."
+      + " " + inQuotes( Cards.getCurrentAnswer()[0] ) + "."
       + " " + random_response('forward');
   },
   new_card : function(){
     Cards.goToNextCard();
     var response = "";
     if( first_question ){
-      response = random_response('options') + " ";
+      response = "If you\'d like to know what I can do for you while studying, just ask! ";
       first_question = false;
     }
     response += random_response('ask_answer')
@@ -99,14 +98,27 @@ exports.Responses = {
   },
 
   hint : function(){
-    if ( Cards.getCurrentHint() ) {
-      return random_response('hint')
-        + " " + inQuotes( Cards.getCurrentHint() ) + "."
-        + " " + random_response('re_ask');
-    } else {
+    var hint_found = Cards.getCurrentHint()
+
+    // if there's no hint
+    if (!hint_found){
       return random_response('no_hint')
         + " " + random_response('repeat')
         + " " + inQuotes( Cards.getCurrentQuestion() );
+    }
+
+    // if there was a hint, but it's been used
+    else if (hint_found == 'used'){
+      return random_response('hint_used')
+        + " " + random_response('repeat')
+        + " " + inQuotes( Cards.getCurrentQuestion() );
+    }
+
+    // if there's a hint
+    else {
+      return random_response('hint')
+        + " " + inQuotes( hint_found ) + "."
+        + " " + random_response('re_ask');
     }
   },
 
@@ -142,7 +154,7 @@ var helpers = {
   correct: [
     'is just right.',
     'is correct!',
-    'is exactly right',
+    'is exactly right.',
     'is spot on!'
   ],
   forward: [
@@ -163,7 +175,7 @@ var helpers = {
   acknowledge: [
     'Okay!',
     'Alright then.',
-    'Will do, champ.'
+    'Alright, champ.'
   ],
   give_answer: [
     'Here\'s the right answer: ',
@@ -177,7 +189,7 @@ var helpers = {
   ],
   ask_answer: [
     'Answer this: ',
-    'Can you answer this? ',
+    'Give me your answer to this: ',
     'Here\'s your question: '
   ],
   welcome: [
@@ -194,9 +206,8 @@ var helpers = {
     'Maybe this will help:'
   ],
   re_ask: [
-    'Any new ideas on the answer?',
     'What do you think the answer is?',
-    'Any ideas?'
+    'What do you think the answer is now?'
   ],
   no_hint: [
     'Oh no! It looks like I can\'t help you with this one.',
@@ -218,7 +229,12 @@ var helpers = {
     'Hmm, I\'m not understanding you.',
     'Uh-oh! I don\'t know how to deal with what you said!',
     'Oops! I don\'t know what to do now. My bad!'
-  ]
+  ],
+  hint_used: [
+    'Looks like I have no more hints for you on this one! Bummer.',
+    'I don\'t have another hint for this, Darn!',
+    'I can\'t give you any more help then I already have, buddy.'
+  ],
 
 }
 

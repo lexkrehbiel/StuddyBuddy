@@ -153,12 +153,12 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     let title = app.getArgument(TITLE_ARGUMENT);
 
     console.error("Trying to switch decks with title argument \"" + title + "\"");
-    
+
     if( Cards.setDeck(title) ) {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
 
-      let sysResponse = "Switched to deck " + Cards.getCurrentTitle() + ". You'll get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
+      let sysResponse = Responses.acknowledge() + " Switched to deck " + Cards.getCurrentTitle() + ". You will get a " + Cards.getCurrentSticker() + " sticker for each correct answer. " + Responses.new_card() + ".";
 
       console.error("System response is " + sysResponse);
 
@@ -228,7 +228,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     console.error("Request for score, user said: " + app.getRawInput());
-    
+
     var subject = app.getArgument(STICKER_ARGUMENT);
 
     let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
