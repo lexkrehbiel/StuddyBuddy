@@ -11,9 +11,8 @@ var ScoreKeeper = require('./score_keeper.js');
 const ASSESS_ACTION = 'assess_response';
 const NEW_CARD_ACTION = 'new_card';
 const FIRST_NEW_CARD_ACTION = 'first_new_card';
-const SELECT_DECK_ACTION = 'select_deck';
+const SET_DECK_ACTION = 'set_deck';
 const LIST_DECK_ACTION = 'list_deck';
-const SWITCH_DECK_ACTION = 'switch_deck';
 const QUIT_ACTION = 'quit';
 const STATS_ACTION = 'stats';
 const FALLBACK_ACTION = 'fallback';
@@ -72,24 +71,24 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
       console.error("User was correct");
 
-      let switchDeck = " "
+      let switch_Deck = " "
 
       if(ScoreKeeper.atSwitchThreshold()){
-        switchDeck = " It looks like we reached the end of the deck, just let me know if you want to switch to another one, for now we'll go through again! "
+        switch_Deck = " It looks like we reached the end of the deck, just let me know if you want to switch to another one, for now we'll go through again! "
       }
 
 		  if(ScoreKeeper.atRewardThreshold()){
 			//Do a different response remminding the user of their current progress, possibly encouraging them to swap decks.
         console.error("We are at the reward threshold");
 
-        let sysResponse = Responses.good_job() + " " + Responses.getStats() + switchDeck + Responses.new_card();
+        let sysResponse = Responses.good_job() + " " + Responses.getStats() + switch_Deck + Responses.new_card();
 
         console.error("System response is " + sysResponse);
 		    app.ask( sysResponse );
       }
       else{
 
-        let sysResponse = Responses.correct(user_raw) + switchDeck + Responses.new_card();
+        let sysResponse = Responses.correct(user_raw) + switch_Deck + Responses.new_card();
 
 
 
@@ -148,12 +147,12 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   }
 
   // switch to user specified deck and give new card
-  function switchDeck(app) {
+  function setDeck(app) {
 
     let title = app.getArgument(TITLE_ARGUMENT);
 
     console.error("Trying to switch decks with title argument \"" + title + "\"");
-    
+
     if( Cards.setDeck(title) ) {
 
       console.error("Valid title, switching to new deck, user said: " + app.getRawInput());
@@ -167,6 +166,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
       app.ask( sysResponse );
 
     }
+
     else {
       console.error("Invalid title, asking again, user said: " + app.getRawInput());
 
@@ -191,24 +191,12 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
     app.ask( sysResponse );
   }
 
-  // user says he wants to switch
-  function selectDeck(app) {
-    console.error("User attempting to select deck but did not provide title, user said: " + app.getRawInput());
-
-    let sysResponse = Responses.select_deck();
-
-    console.error("System response is " + sysResponse);
-
-    app.setContext(SELECT_CONTEXT);
-    app.ask( sysResponse );
-  }
-
   // ask the user about a new card after welcoming him
   function firstNewCard(app) {
 
     console.error("First New Card called, user said: " + app.getRawInput())
 
-    let sysResponse = Responses.welcome() +  " " + Responses.select_deck();
+    let sysResponse = Responses.welcome() +  " " + Responses.ask_deck();
 
     console.error("System response is " + sysResponse);
 
@@ -228,7 +216,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function getScore(app){
     console.error("Request for score, user said: " + app.getRawInput());
-    
+
     var subject = app.getArgument(STICKER_ARGUMENT);
 
     let sysResponse = Responses.getStats(subject) + " " + Responses.repeat();
@@ -302,9 +290,8 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
   actionMap.set(HINT_ACTION, giveHint);
   actionMap.set(NEW_CARD_ACTION, getNewCard);
   actionMap.set(FIRST_NEW_CARD_ACTION, firstNewCard);
-  actionMap.set(SELECT_DECK_ACTION, selectDeck);
+  actionMap.set(SET_DECK_ACTION, setDeck);
   actionMap.set(LIST_DECK_ACTION, listDeck);
-  actionMap.set(SWITCH_DECK_ACTION, switchDeck);
   actionMap.set(QUIT_ACTION, quitStudy);
   actionMap.set(STATS_ACTION, getScore);
   actionMap.set(REPEAT_ACTION, repeatQuestion);
