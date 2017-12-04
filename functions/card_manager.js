@@ -43,7 +43,25 @@ exports.getCurrentAnswer = function(){
 
 // hint accessor
 exports.getCurrentHint = function(){
-  return (decks[num]).cards[current].hint;
+	var card = (decks[num]).cards[current];
+
+	// if this card has a hint...
+	if ('hint' in card ){
+
+		// ... but it's been used, return used
+		if (card['hint_used'] == true){
+			return 'used';
+		}
+
+		// if unused, mark used and return the hint
+		else {
+			card['hint_used'] = true;
+			return card.hint;
+		}
+	}
+
+	// return that there's no hint
+	return false;
 }
 
 // title accessor
@@ -64,6 +82,9 @@ exports.getCurrentSticker = function(){
 // increment the cursor to move to the next card
 exports.goToNextCard = function(){
   current = (current + 1) % (decks[num]).cards.length;
+
+	// reset the hint usage of this card
+	(decks[num]).cards[current]['hint_used'] = false
 }
 
 // return list of decks
