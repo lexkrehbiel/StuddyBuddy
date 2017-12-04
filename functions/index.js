@@ -243,7 +243,7 @@ exports.studdyBuddy = functions.https.onRequest((request, response) => {
 
   function skip(app){
     console.error("Request to skip, user said: " + app.getRawInput());
-
+    ScoreKeeper.markSkip();
     let sysResponse = Responses.skip(ScoreKeeper.atSwitchThreshold());
 
     console.error("System response is " + sysResponse);
