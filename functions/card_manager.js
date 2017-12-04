@@ -11,7 +11,7 @@ var num = 0;
 exports.getStickerName = function(deckName){
 
 	if(deckName == null){
-		return getCurrentSticker();
+		return (decks[num]).sticker;
 	}
 
 	for(let i = 0; i < decks.length; i++){
