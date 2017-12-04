@@ -22,7 +22,7 @@
                {
                   "question": "What is the meaning of life?",
                   "hint": "Question popularized by Hitchhikers guide to the galaxy.",
-                  "answer": ["42"]
+                  "answer": ["42", "memes", "death"]
                },
                {
                   "question": "Bronze alloy is made of tin and what?",
@@ -94,7 +94,7 @@
             ]
       },
       {
-         "title": ["Common Latin Phrases", "Latin", "Latin Phrases", "Latin Phrases"],
+         "title": ["Common Latin Phrases", "Common Latin", "Latin", "Latin Phrases", "Latin Phrases"],
             "subject": "Latin",
             "sticker": "scroll",
             "cards": [
