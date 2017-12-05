@@ -38,7 +38,8 @@ exports.getCurrentQuestion = function(){
 
 // answer accessor
 exports.getCurrentAnswer = function(){
-  return (decks[num]).cards[current%decks[num].cards.length].answer;
+	var index = current%decks[num].cards.length;
+  return (decks[num]).cards[index].answer;
 }
 
 // hint accessor
@@ -125,6 +126,6 @@ exports.getDeckSuggestion = function(){
   let deckRecommend = "";
   let num = Math.floor(Math.random() * (decks.length - 1));
   deckRecommend += decks[num % decks.length].title[0];
-  deckRecommend += " and " + decks[(num + 1) % decks.length].title[0]
+  deckRecommend += " or " + decks[(num + 1) % decks.length].title[0]
   return deckRecommend;
 }

@@ -46,7 +46,7 @@ exports.Responses = {
       + " " + inQuotes( Cards.getCurrentQuestion() );
     return response;
   },
-  select_deck : function(){
+  ask_deck : function(){
     return "What deck would you like to study? I recommend studying " + Cards.getDeckSuggestion();
   },
   list_deck : function(){
@@ -54,9 +54,6 @@ exports.Responses = {
   },
   welcome : function(){
     return random_response('welcome');
-  },
-  ask_deck : function(){
-    return "What deck would you like to study today?";
   },
   good_job : function(){
     return random_response('encouragement');
