@@ -115,6 +115,7 @@ exports.setDeck = function(name){
     if (evaluate(decks[i].title,name)) {
       num = i;
       ScoreKeeper.setCurrentDeck(i);
+      current = -1;
       return true;
     }
   }
